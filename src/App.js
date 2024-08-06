@@ -1,13 +1,14 @@
+// src/App.js
 import React from 'react';
-
-import Signup from './components/Signup'; // Ensure the path is correct
-import './App.css';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import ClerksPage from './components/ClerksPage';
 
 function App() {
   return (
-    <div className="App">
-      <Signup />
-    </div>
+    <Provider store={store}>
+      <ClerksPage />
+    </Provider>
   );
 }
 

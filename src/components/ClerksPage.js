@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentPackage, clearCurrentPackage } from '../features/productSlice';
 import AddPackageModal from './AddPackageModal';
 import ConfirmPackageModal from './ConfirmPackageModal';
+import SoldItemModal from './SoldItemModal';
 import './ClerksPage.css';
 
 const ClerksPage = () => {
@@ -11,6 +12,7 @@ const ClerksPage = () => {
   const { packages } = useSelector((state) => state.product);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSoldItemModal, setShowSoldItemModal] = useState(false);
 
   const handleRequestProduct = () => {
     setShowAddModal(true);
@@ -26,6 +28,17 @@ const ClerksPage = () => {
     dispatch(clearCurrentPackage());
     setShowConfirmModal(false);
   };
+  const handleSellItem = () => {
+    setShowSoldItemModal(true);
+  };
+
+  const handleAddSoldItem = (soldItem) => {
+    console.log('Sold item:', soldItem);
+    // Dispatch an action to update the Redux store
+    dispatch(addSoldItem(soldItem));
+    setShowSoldItemModal(false);
+  };
+  
 
   return (
     <div className="clerks-page">
@@ -36,9 +49,9 @@ const ClerksPage = () => {
       <main className="main-content">
         <header>
           <h1>Grace</h1>
-          <p>(2468 Inventory)</p>
+        
           <div>
-            <button className="sell-btn">Sell Item</button>
+          <button className="sell-btn" onClick={handleSellItem}>Sell Item</button>
             <button className="request-btn" onClick={handleRequestProduct}>Request Products</button>
           </div>
         </header>
@@ -203,6 +216,12 @@ const ClerksPage = () => {
         <ConfirmPackageModal
           onClose={() => setShowConfirmModal(false)}
           onConfirmPackage={handleConfirmPackage}
+        />
+      )}
+       {showSoldItemModal && (
+        <SoldItemModal
+          onClose={() => setShowSoldItemModal(false)}
+          onAddSoldItem={handleAddSoldItem}
         />
       )}
     </div>

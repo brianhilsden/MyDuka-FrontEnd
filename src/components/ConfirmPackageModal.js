@@ -14,8 +14,10 @@ const ConfirmPackageModal = ({ onClose, onConfirmPackage }) => {
         <p>Product Category: {currentPackage.category}</p>
         <p>Unit Pricing: {currentPackage.price}</p>
         <p>Stock: {currentPackage.stock}</p>
-        <button onClick={onConfirmPackage}>Submit</button>
-        <button onClick={onClose}>Edit</button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+           <button onClick={onConfirmPackage}>Submit</button>
+            <button onClick={onClose}>Edit</button>
+      </div>
       </div>
     </div>
   );
