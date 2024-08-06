@@ -1,0 +1,90 @@
+.login-container {
+  display: flex;
+  height: 100vh;
+}
+
+.left, .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.left {
+  background-color:#134e85;
+}
+
+.right {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.forgot-password {
+  margin-bottom: 20px;
+}
+
+.forgot-password a, .signup-link a {
+  color: #007bff;
+  text-decoration: none;
+  padding-left: 36px;
+}
+
+.or {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.social-login button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.social-login button:first-child {
+  background-color: #db4437;
+  color: white;
+}
+
+.social-login button:last-child {
+  background-color: #3b5998;
+  color: white;
+}
