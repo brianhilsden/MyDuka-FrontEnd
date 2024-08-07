@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import MerchantItem from '../MerchantItem/MerchantItem';
+import React, { useState, useEffect} from 'react';
+import AdminItemItem from '../AdminItem/AdminItem';
 import Sidebar from '../Sidebar/Sidebar';
 import AddAdminForm from '../AddAdminForm/AddAdminForm';
 import styles from './MerchantDashboard.module.css';
 
-const merchants = [
-    { id: 1,  storeLink: '#' },
-    { id: 2,  storeLink: '#' },
-    { id: 3,  storeLink: '#' }
-];
-
 const MerchantDashboard = () => {
+    const [admins,setAdmins]= useState ([])
+    
+
+useEffect (() => {
+    fetch("https://my-duka-back-end.vercel.app/getAdmins").then(response => response.json())
+    .then(data => setAdmins(data)
+.catch(error => console.error("Error")))
+}, [])
     const [isAddAdminFormVisible, setIsAddAdminFormVisible] = useState(false);
 
     const toggleAddAdminForm = () => {
         setIsAddAdminFormVisible(!isAddAdminFormVisible);
     };
+    console.log(admins)
 
     return (
         <div className={styles.container}>
@@ -25,8 +28,8 @@ const MerchantDashboard = () => {
                     <h1>Merchant</h1>
                     <button onClick={toggleAddAdminForm} className={styles.addButton}>Add Admin</button>
                 </div>
-                {merchants.map(merchant => (
-                    <MerchantItem key={merchant.id} merchant={merchant} />
+                {admins.map(admin => (
+                    <AdminItem key={admin.id} admin={admin} />
                 ))}
                 <div className={styles.sales}>
                     <h3>Top 3 Stores by Sales</h3>

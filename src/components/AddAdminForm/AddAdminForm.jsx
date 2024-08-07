@@ -16,7 +16,7 @@ const AddAdminForm = ({ onClose }) => {
                 <h2>Add Admin</h2>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>
-                        <label>Name:</label>
+                        <label>email:</label>
                         <input 
                             type="text" 
                             value={name} 

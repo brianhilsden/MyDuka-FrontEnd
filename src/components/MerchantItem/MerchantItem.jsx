@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './MerchantItem.module.css';
 
-const MerchantItem = ({ merchant }) => {
+const AdminItem = ({ admin }) => {
     const handleDelete = async () => {
         try {
-            const response = await fetch(`/api/merchants/${merchant.id}`, {
+            const response = await fetch(`https://my-duka-back-end.vercel.app/${admin.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -12,7 +12,7 @@ const MerchantItem = ({ merchant }) => {
             });
 
             if (response.ok) {
-                console.log(`Deleted ${merchant.name}`);
+                console.log(`Deleted ${admin.name}`);
                 // Optionally, you can trigger a refresh or update the state here
             } else {
                 console.error('Error deleting merchant:', response.statusText);
@@ -24,7 +24,7 @@ const MerchantItem = ({ merchant }) => {
 
     const handleInactivate = async () => {
         try {
-            const response = await fetch(`/api/merchants/${merchant.id}`, {
+            const response = await fetch(`https://my-duka-back-end.vercel.app/$admin.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ const MerchantItem = ({ merchant }) => {
             });
 
             if (response.ok) {
-                console.log(`Inactivated ${merchant.name}`);
+                console.log(`Inactivated ${admin.name}`);
                 // Optionally, you can trigger a refresh or update the state here
             } else {
                 console.error('Error inactivating merchant:', response.statusText);
@@ -45,12 +45,12 @@ const MerchantItem = ({ merchant }) => {
 
     return (
         <div className={styles.merchantItem}>
-            <span>{`ADMIN ${merchant.id} [${merchant.name}]`}</span>
+            <span>{`ADMIN ${admin.id} [${admin.name}]`}</span>
             <button onClick={handleDelete} className={`${styles.button} ${styles.deleteButton}`}>Delete</button>
             <button onClick={handleInactivate} className={`${styles.button} ${styles.inactivateButton}`}>Inactivate</button>
-            <a href={merchant.storeLink} className={`${styles.button} ${styles.viewButton}`}>View Store</a>
+            <a href={admin.storeLink} className={`${styles.button} ${styles.viewButton}`}>View Store</a>
         </div>
     );
 };
 
-export default MerchantItem;
+export default AdminItem;
