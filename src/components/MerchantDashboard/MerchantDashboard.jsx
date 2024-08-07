@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import AdminItemItem from '../AdminItem/AdminItem';
+import AdminItem from '../AdminItem/AdminItem';
 import Sidebar from '../Sidebar/Sidebar';
 import AddAdminForm from '../AddAdminForm/AddAdminForm';
 import styles from './MerchantDashboard.module.css';
@@ -10,8 +10,8 @@ const MerchantDashboard = () => {
 
 useEffect (() => {
     fetch("https://my-duka-back-end.vercel.app/getAdmins").then(response => response.json())
-    .then(data => setAdmins(data)
-.catch(error => console.error("Error")))
+    .then(data => setAdmins(data))
+    .catch(error => console.error(error))
 }, [])
     const [isAddAdminFormVisible, setIsAddAdminFormVisible] = useState(false);
 
