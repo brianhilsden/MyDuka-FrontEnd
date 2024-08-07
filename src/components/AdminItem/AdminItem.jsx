@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './AdminItem.module.css';
 
 const AdminItem = ({ admin }) => {
-    const [button,setButton] = useState(admin.account_status)
+    const [status,setStatus] = useState(admin.account_status)
     const handleDelete = async () => {
         try {
             const response = await fetch(`https://my-duka-back-end.vercel.app/adminAccountStatus/${admin.id}`, {
@@ -25,19 +25,19 @@ const AdminItem = ({ admin }) => {
 
     const handleInactivate = async () => {
         try {
-            fetch(`https://my-duka-back-end.vercel.app/adminAccountStatus/${admin.id}`, {
-                method: 'GET'
-            })
+            fetch(`https://my-duka-back-end.vercel.app/adminAccountStatus/${admin.id}`)
             .then(response=>{
                 if (response.ok) {
-                    setButton
+                    
                     console.log(`Inactivated ${admin.username}`);
                     // Optionally, you can trigger a refresh or update the state here
+                    return response.json()
                 } else {
                     console.error('Error inactivating merchant:', response.statusText);
                 }
 
-            })
+            }).then(data=>setStatus(data.status)
+            )
             
            
         } catch (error) {
@@ -49,7 +49,7 @@ const AdminItem = ({ admin }) => {
         <div className={styles.adminItem}>
             <span>{`ADMIN ${admin.id} [${admin.username}]`}</span>
             <button onClick={handleDelete} className={`${styles.button} ${styles.deleteButton}`}>Delete</button>
-            <button onClick={handleInactivate} className={`${styles.button} ${styles.inactivateButton}`}>{button}</button>
+            <button onClick={handleInactivate} className={`${styles.button} ${styles.inactivateButton}`}>{status}</button>
             <a href={admin.storeLink} className={`${styles.button} ${styles.viewButton}`}>View Store</a>
         </div>
     );
