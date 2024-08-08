@@ -21,7 +21,7 @@ const Login = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({...formData,role:"Admin"})
+      body: JSON.stringify({...formData})
     })
     .then(res=>res.json())
     .then(data=>console.log(data))
