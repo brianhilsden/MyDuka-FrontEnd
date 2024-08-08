@@ -1,25 +1,72 @@
-import logo from './logo.svg';
+
+import React from 'react';
+import { useEffect } from 'react';
+
+import ClerksPage from './components/ClerksPage';
+
+import { useDispatch } from 'react-redux';
+import { addUser } from './features/userSlice';
+
+import Signup from './components/Signup'; // Ensure the path is correct
+
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import MerchantDashboard from './components/MerchantDashboard/MerchantDashboard';
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
+
 import './App.css';
 
-function App() {
+
+
+const App = () => {
+  const dispatch = useDispatch()
+ 
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      fetch('https://my-duka-back-end.vercel.app/check_session', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to verify token');
+        }
+        return response.json(); // Parse JSON response
+      })
+      .then(userData => {
+        console.log(userData);
+        
+        dispatch(addUser(userData)); // Set user data once fetched
+      })
+      .catch(error => {
+        console.error('Token verification failed:', error);
+       
+      });
+    }
+  }, [dispatch]);
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/clerk/:id" element={<ClerksPage/>}/>
+        <Route path='/merchant' element={<MerchantDashboard/>}/>
+      </Routes>
+    </Router>
+
+
   );
-}
+};
 
 export default App;
+
+
+
