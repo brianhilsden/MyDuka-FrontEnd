@@ -1,4 +1,9 @@
+
 import React from 'react';
+
+
+import ClerksPage from './components/ClerksPage';
+
 
 
 import Signup from './components/Signup'; // Ensure the path is correct
@@ -11,8 +16,10 @@ import Login from './components/Login';
 import './App.css';
 
 
+
 const App = () => {
   return (
+
 
     <Router>
       <Routes>
@@ -20,12 +27,15 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>}/>
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/clerk" element={<ClerksPage/>}/>
       </Routes>
     </Router>
+
 
   );
 };
 
 export default App;
+
 
 
