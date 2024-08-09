@@ -27,7 +27,7 @@ const ClerksPage = () => {
       .then(res => res.json())
       .then(data => setInventory(data));
   }, [truthValue,user, store_id]);
-  console.log(truthValue);
+
   
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const ClerksPage = () => {
   };
 
   const handleAddPackage = (pkg) => {
-    fetch("https://my-duka-back-end.vercel.app/requests/19",{
+    fetch(`https://my-duka-back-end.vercel.app/requests/${store_id}`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -83,7 +83,7 @@ const ClerksPage = () => {
     console.log(soldItem);
     
  
-      fetch("https://my-duka-back-end.vercel.app/sales/19",{
+      fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
@@ -92,7 +92,8 @@ const ClerksPage = () => {
           product_name:soldItem.productName,
           date:soldItem.date,
           quantity:parseInt(soldItem.quantity),
-          total_price:soldItem.totalPrice
+          total_price:soldItem.totalPrice,
+          clerk_id : user.id
         })
       }
         

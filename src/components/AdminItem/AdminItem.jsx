@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from './AdminItem.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const AdminItem = ({ admin }) => {
+    const navigate = useNavigate()
     const [status,setStatus] = useState(admin.account_status)
     const handleDelete = async () => {
         try {
@@ -50,7 +52,7 @@ const AdminItem = ({ admin }) => {
             <span>{`ADMIN ${admin.id} [${admin.username}]`}</span>
             <button onClick={handleDelete} className={`${styles.button} ${styles.deleteButton}`}>Delete</button>
             <button onClick={handleInactivate} className={`${styles.button} ${styles.inactivateButton}`}>{status}</button>
-            <a href={admin.storeLink} className={`${styles.button} ${styles.viewButton}`}>View Store</a>
+            <button className={`${styles.button} ${styles.viewButton}`} onClick={()=>navigate(`/admin/${admin.id}`)}>View Store</button>
         </div>
     );
 };

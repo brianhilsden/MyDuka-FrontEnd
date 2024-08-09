@@ -1,0 +1,186 @@
+
+/* AdminPage.css */
+.admin-page {
+  display: flex;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #6610f2;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  overflow-y: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-clerk-btn {
+  background-color: #6610f2;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.plus-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+section {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+}
+
+.decline-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+}
+
+.inactivate-btn {
+  background-color: #ffc107;
+  color: #000;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.inactivate-btn:hover {
+  background-color: #e0a800;
+}
+
+.mark-as-paid-btn {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.popup-content.large {
+  width: 400px; /* Width of the popup */
+  padding: 30px; /* Padding inside the popup */
+}
+
+.popup-content input {
+  width: 100%; /* Full width for inputs */
+  padding: 10px; /* Padding for inputs */
+  margin-bottom: 15px; /* Spacing below inputs */
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .admin-page {
+    flex-direction: column; /* Stack sidebar and main content */
+  }
+
+  .sidebar {
+    width: 100%; /* Full width for sidebar */
+    height: auto; /* Auto height for sidebar */
+    padding: 10px; /* Reduced padding */
+  }
+
+  .main-content {
+    padding: 10px; /* Reduced padding */
+  }
+
+  table {
+    font-size: 14px; /* Smaller font size for tables */
+  }
+
+  th, td {
+    padding: 8px; /* Reduced padding for table cells */
+  }
+
+  button {
+    padding: 4px 8px; /* Smaller button padding */
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .popup-content.large {
+    width: 90%; /* Full width on smaller screens */
+    max-width: 400px; /* Max width for popup */
+  }
+}
