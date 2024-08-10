@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/MyDuka-FrontEnd/static/css/main.64966e62.css",
-    "main.js": "/MyDuka-FrontEnd/static/js/main.d5367a89.js",
+    "main.js": "/MyDuka-FrontEnd/static/js/main.d931d6fb.js",
     "static/media/jpg": "/MyDuka-FrontEnd/static/media/a624e937b25af2336c6559e4e4b7bf7f.930ca70e929cffc2b757.jpg",
     "index.html": "/MyDuka-FrontEnd/index.html",
     "main.64966e62.css.map": "/MyDuka-FrontEnd/static/css/main.64966e62.css.map",
-    "main.d5367a89.js.map": "/MyDuka-FrontEnd/static/js/main.d5367a89.js.map"
+    "main.d931d6fb.js.map": "/MyDuka-FrontEnd/static/js/main.d931d6fb.js.map"
   },
   "entrypoints": [
     "static/css/main.64966e62.css",
-    "static/js/main.d5367a89.js"
+    "static/js/main.d931d6fb.js"
   ]
 }
