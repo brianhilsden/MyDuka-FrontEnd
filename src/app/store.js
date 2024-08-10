@@ -5,13 +5,15 @@ import truthValueReducer from "../features/truthValueSlice"
 
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/authSlice';
+import adminReducer from '../features/adminSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     product: productReducer,
     user:userReducer,
-    truthValue:truthValueReducer
+    truthValue:truthValueReducer,
+    admin: adminReducer,
 
   },
 });

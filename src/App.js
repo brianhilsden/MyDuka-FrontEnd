@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useEffect } from 'react';
 
@@ -15,6 +14,7 @@ import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 
 import './App.css';
+import AdminPage from './components/AdminPage';
 
 
 
@@ -59,6 +59,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/clerk/:id" element={<ClerksPage/>}/>
         <Route path='/merchant' element={<MerchantDashboard/>}/>
+        <Route path='/admin/:id' element={<AdminPage/>}/>
       </Routes>
     </Router>
 
@@ -67,6 +68,4 @@ const App = () => {
 };
 
 export default App;
-
-
 
