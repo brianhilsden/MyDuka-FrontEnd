@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './AddPackageModal.css';
 
+
 const AddPackageModal = ({ onClose, onAddPackage }) => {
+
   const [formData, setFormData] = useState({
     name: '',
-    category: '',
+    brand_name: '',
     price: '',
     stock: '',
   });
@@ -17,6 +19,8 @@ const AddPackageModal = ({ onClose, onAddPackage }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddPackage(formData);
+    
+   
   };
 
   return (
@@ -33,9 +37,9 @@ const AddPackageModal = ({ onClose, onAddPackage }) => {
           />
           <input
             type="text"
-            name="category"
-            placeholder="Product Category"
-            value={formData.category}
+            name="brand_name"
+            placeholder="Product Brand Name"
+            value={formData.brand_name}
             onChange={handleChange}
           />
           <input

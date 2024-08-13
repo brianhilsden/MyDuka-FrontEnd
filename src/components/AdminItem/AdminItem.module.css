@@ -1,0 +1,29 @@
+.adminItem {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.deleteButton {
+    background-color: red;
+}
+
+.inactivateButton {
+    background-color: brown;
+}
+
+.viewButton {
+    background-color: blue;
+    text-align: center;
+}
