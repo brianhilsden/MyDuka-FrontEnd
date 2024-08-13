@@ -7,21 +7,28 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 const MerchantDashboard = () => {
     const [admins, setAdmins] = useState([]);
-    const [storeSales, setStoreSales] = useState([]);
+
+    // Mock data for admins
+    const mockAdmins = [
+        { id: 1, name: 'Admin 1', email: 'admin1@example.com' },
+        { id: 2, name: 'Admin 2', email: 'admin2@example.com' },
+        { id: 3, name: 'Admin 3', email: 'admin3@example.com' }
+    ];
+
+    // Mock data for store sales
+    const mockStoreSales = [
+        { storeName: "Store 1", sales: 1000 },
+        { storeName: "Store 2", sales: 850 },
+        { storeName: "Store 3", sales: 920 }
+    ];
 
     useEffect(() => {
-        fetch("https://my-duka-back-end.vercel.app/getAdmins")
-            .then(response => response.json())
-            .then(data => setAdmins(data))
-            .catch(error => console.error(error));
-
-        // Fetch store sales data
-        fetch("https://my-duka-back-end.vercel.app/getStoreSales")
-            .then(response => response.json())
-            .then(data => setStoreSales(data))
-            .catch(error => console.error(error));
+        // Using mock data instead of fetching from an API
+        setAdmins(mockAdmins);
+        setStoreSales(mockStoreSales);
     }, []);
 
+    const [storeSales, setStoreSales] = useState([]);
     const [isAddAdminFormVisible, setIsAddAdminFormVisible] = useState(false);
 
     const toggleAddAdminForm = () => {
