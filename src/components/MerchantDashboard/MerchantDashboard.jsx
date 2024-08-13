@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import AdminItem from '../AdminItem/AdminItem';
 import Sidebar from '../Sidebar/Sidebar';
@@ -38,7 +39,10 @@ const MerchantDashboard = () => {
     console.log(admins);
     console.log(storeSales);
 
+
+ 
     return (
+
         <div className={styles.container}>
             <Sidebar />
             <div className={styles.mainContent}>
@@ -64,8 +68,11 @@ const MerchantDashboard = () => {
                 </div>
                 {isAddAdminFormVisible && <AddAdminForm onClose={toggleAddAdminForm} />}
             </div>
+
         </div>
+    
     );
+  
 };
 
 export default MerchantDashboard;

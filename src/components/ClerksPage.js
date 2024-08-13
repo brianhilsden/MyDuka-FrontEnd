@@ -14,24 +14,25 @@ const ClerksPage = () => {
   const [sales, setSales] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { packages } = useSelector((state) => state.product);
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSoldItemModal, setShowSoldItemModal] = useState(false);
   const user = useSelector(state => state.user.user);
   const truthValue = useSelector(state=>state.truthValue.truthValue)
+  const currentPackage = useSelector(state=>state.product.currentPackage)
   const store_id = user.store_id;
 
   useEffect(() => {
     fetch(`https://my-duka-back-end.vercel.app/getProducts/${store_id}`)
       .then(res => res.json())
       .then(data => setInventory(data));
-  }, [truthValue,user, store_id]);
+  }, [truthValue,user, store_id,sales]);
 
   
 
   useEffect(() => {
-    fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`)
+    fetch(`https://my-duka-back-end.vercel.app/ales/${store_id}`)
       .then(res => res.json())
       .then(data => setSales(data.sales))
     
@@ -47,17 +48,27 @@ const ClerksPage = () => {
   };
 
   const handleAddPackage = (pkg) => {
+   
+    dispatch(setCurrentPackage(pkg));
+    setShowAddModal(false);
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmPackage = () => {
+ ;
+    
     fetch(`https://my-duka-back-end.vercel.app/requests/${store_id}`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
       },
       body:JSON.stringify({
-        product_name:pkg.name,
-        stock:parseInt(pkg.stock),
-        product_price:pkg.price,
+        product_name:currentPackage.name,
+        stock:parseInt(currentPackage.stock),
+        product_price:currentPackage.price,
+        brand_name:currentPackage.brand_name,
         clerk_id:user.id,
-        category:pkg.category
+        category:currentPackage.category
       })
     }
       
@@ -65,12 +76,6 @@ const ClerksPage = () => {
     .then(res=>res.json())
     .then(data=>console.log(data)
     )
-    dispatch(setCurrentPackage(pkg));
-    setShowAddModal(false);
-    setShowConfirmModal(true);
-  };
-
-  const handleConfirmPackage = () => {
     dispatch(clearCurrentPackage());
     setShowConfirmModal(false);
   };
@@ -80,7 +85,7 @@ const ClerksPage = () => {
   };
 
   const handleAddSoldItem = (soldItem) => {
-    console.log(soldItem);
+  
     
  
       fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`,{
@@ -92,7 +97,6 @@ const ClerksPage = () => {
           product_name:soldItem.productName,
           date:soldItem.date,
           quantity:parseInt(soldItem.quantity),
-          total_price:soldItem.totalPrice,
           clerk_id : user.id
         })
       }
@@ -132,7 +136,7 @@ const ClerksPage = () => {
     );
   }
 
-  if (user) {
+  if (user.role === "Clerk") {
     return (
       <div className="clerks-page">
         <aside className="sidebar">
@@ -153,7 +157,7 @@ const ClerksPage = () => {
               <thead>
                 <tr>
                   <th>Item</th>
-                  <th>Stocks</th>
+                  <th>Payment status</th>
                   <th>In stock</th>
                   <th>In units</th>
                   <th>Spoilt items</th>
@@ -165,7 +169,7 @@ const ClerksPage = () => {
                 {inventory.map(item => (
                   <tr key={item.id}>
                     <td>{item.product_name}</td>
-                    <td>{item.received_items}</td>
+                    <td>{item.payment_status}</td>
                     <td>{item.closing_stock}</td>
                     <td>kg</td>
                     <td>{item.spoilt_items}</td>
