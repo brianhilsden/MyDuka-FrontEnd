@@ -4,12 +4,12 @@ import './SoldItemModal.css';
 const SoldItemModal = ({ onClose, onAddSoldItem }) => {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
+
   const [date, setDate] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddSoldItem({ productName, quantity, totalPrice, date });
+    onAddSoldItem({ productName, quantity, date });
     onClose();
   };
 
@@ -40,17 +40,7 @@ const SoldItemModal = ({ onClose, onAddSoldItem }) => {
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="totalPrice">Total Price</label>
-            <input
-              type="number"
-              id="totalPrice"
-              value={totalPrice}
-              onChange={(e) => setTotalPrice(e.target.value)}
-              placeholder="Enter Total Price"
-              required
-            />
-          </div>
+          
           <div className="form-group">
             <label htmlFor="date">Date</label>
             <input

@@ -1,19 +1,96 @@
 
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { createUser } from '../features/authSlice'; 
+
 import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { addUser } from '../features/userSlice';
 import './Signup.css'; 
 
 export default function Signup() {
+  const [searchParams] = useSearchParams();
+  const [formData,setFormData] = useState({full_name:"",phone_number:"",email:"",password:"",confirmPassword:""})
+  const token = searchParams.get('token');
+  const [validationError,setValidationError] = useState()
+  const [validToken, setValidToken] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    dispatch(createUser(data));
+
+
+  const handleChange = (e) => {
+    setFormData({...formData,[e.target.name]:e.target.value})
   };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+  
+   
+    if (formData.password === formData.confirmPassword)  {
+      fetch("https://my-duka-back-end.vercel.app/signup",{
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({...formData,token:token})
+      })
+      .then(res=>res.json())
+      .then(data=>{
+       
+        
+        localStorage.setItem("access_token", data.access_token);
+        let loggedIn = data.user
+        dispatch(addUser(loggedIn))
+        
+        if (loggedIn.role === "Clerk"){
+          
+          navigate(`/clerk/${loggedIn.id}`)
+        }
+        else if(loggedIn.role === "Admin"){
+          navigate(`/admin/${loggedIn.id}`)
+        }
+        else if(loggedIn.role === "Merchant"){
+          navigate("/merchant")
+        }
+        else{
+          navigate("/")
+        }
+    
+        
+      })
+      .catch(error=>console.log(error)
+      )
+      
+
+    }
+    else{
+      setValidationError("Passwords do not match")
+
+    }
+   
+   
+  }
+
+
+  useEffect(() => {
+    fetch('https://my-duka-back-end.vercel.app/validate-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.valid) {
+          setValidToken(true);
+        } else {
+          setValidToken(false);
+        }
+      });
+  }, [token]);
+
+  console.log(token);
+  
+
 
   return (
     <div className="container">
@@ -35,26 +112,32 @@ export default function Signup() {
         </div>
 
         
-        <div className="signup-section">
+        {validToken ? (<div className="signup-section">
           <div className="signup-form-container">
             <h2 className="form-title">Create Account</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
+            <form onSubmit={handleSignUp} className="signup-form">
               <div className="input-group">
                 <UserIcon className="icon" />
                 <input
                   type="text"
                   placeholder="Full Name"
                   className="input"
-                  {...register('fullName')}
+                  onChange={handleChange}
+                  name = "full_name"
+                  value={formData.full_name}
                 />
               </div>
+
               <div className="input-group">
                 <PhoneIcon className="icon" />
                 <input
                   type="text"
                   placeholder="Phone Number"
                   className="input"
-                  {...register('phoneNumber')}
+                  onChange={handleChange}
+                  name = "phone_number"
+                  value={formData.phone_number}
+                  
                 />
               </div>
               <div className="input-group">
@@ -63,7 +146,10 @@ export default function Signup() {
                   type="email"
                   placeholder="Email"
                   className="input"
-                  {...register('email')}
+                  name = "email"
+                  onChange={handleChange}
+                  value={formData.email}
+             
                 />
               </div>
               <div className="input-group">
@@ -72,7 +158,10 @@ export default function Signup() {
                   type="password"
                   placeholder="Password"
                   className="input"
-                  {...register('password')}
+                  name = "password"
+                  onChange={handleChange}
+                  value={formData.password}
+               
                 />
               </div>
               <div className="input-group">
@@ -81,7 +170,10 @@ export default function Signup() {
                   type="password"
                   placeholder="Confirm Password"
                   className="input"
-                  {...register('confirmPassword')}
+                  onChange={handleChange}
+                  name='confirmPassword'
+                  value={formData.confirmPassword}
+             
                 />
               </div>
               <button type="submit" className="submit-button small-button">
@@ -99,7 +191,8 @@ export default function Signup() {
             </p>
            
           </div>
-        </div>
+          <p>{validationError}</p>
+        </div>):<p>Invalid token</p>}
       </div>
     </div>
   );
