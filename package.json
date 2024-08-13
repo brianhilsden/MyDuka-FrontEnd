@@ -5,10 +5,9 @@
   "homepage": "https://brianhilsden.github.io/MyDuka-FrontEnd",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.3",
+    "jest-fetch-mock": "^3.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
@@ -47,7 +46,17 @@
     ]
   },
   "devDependencies": {
+
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "gh-pages": "^6.1.1"
+
+
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-react": "^7.24.7",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "babel-jest": "^29.7.0",
+    "gh-pages": "^6.1.1",
+    "jest": "^27.5.1"
+
   }
 }
