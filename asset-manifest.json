@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/MyDuka-FrontEnd/static/css/main.52a24272.css",
-    "main.js": "/MyDuka-FrontEnd/static/js/main.d71e74e6.js",
+    "main.js": "/MyDuka-FrontEnd/static/js/main.e87807e4.js",
     "static/media/pexels-rebrand-cities-581004-1367272.jpg": "/MyDuka-FrontEnd/static/media/pexels-rebrand-cities-581004-1367272.6f9e208c303ebb5ad286.jpg",
     "index.html": "/MyDuka-FrontEnd/index.html",
     "main.52a24272.css.map": "/MyDuka-FrontEnd/static/css/main.52a24272.css.map",
-    "main.d71e74e6.js.map": "/MyDuka-FrontEnd/static/js/main.d71e74e6.js.map"
+    "main.e87807e4.js.map": "/MyDuka-FrontEnd/static/js/main.e87807e4.js.map"
   },
   "entrypoints": [
     "static/css/main.52a24272.css",
-    "static/js/main.d71e74e6.js"
+    "static/js/main.e87807e4.js"
   ]
 }
