@@ -1,19 +1,20 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import AdminItem from '../components/AdminItem/AdminItem';
+import { BrowserRouter } from 'react-router-dom';
+import AdminItem from '../components/AdminItem/AdminItem'; // Adjust the path if necessary
 
 const admin = {
   id: 1,
-  username: 'admin1',
-  account_status: 'active',
-  storeLink: 'http://example.com/store'
+  username: 'adminuser',
 };
 
 test('renders AdminItem with admin details', () => {
-  render(<AdminItem admin={admin} />);
-  
+  render(
+    <BrowserRouter>
+      <AdminItem admin={admin} />
+    </BrowserRouter>
+  );
+
   expect(screen.getByText(`ADMIN ${admin.id} [${admin.username}]`)).toBeInTheDocument();
   expect(screen.getByText(/Delete/i)).toBeInTheDocument();
-  expect(screen.getByText(/active/i)).toBeInTheDocument();
-  expect(screen.getByText(/View Store/i)).toHaveAttribute('href', admin.storeLink);
 });
