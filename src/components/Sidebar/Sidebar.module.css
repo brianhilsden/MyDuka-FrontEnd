@@ -1,21 +1,77 @@
 .sidebar {
-    width: 200px;
-    background-color: #333;
-    color: white;
-    height: 100vh;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 10px;
+  gap: 20px;
+
+  width: 320px;
+  height: 1383px;
+
+  background: black;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 0;
 }
 
 .navList {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .navItem {
-    margin-bottom: 10px;
+  /* Component */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+ 
+  gap: 12px;
+
+  background: #000000;
+  border-radius: 8px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 10;
+  flex-grow: 0;
 }
+/* Nav */
+
+/* Auto layout */
 
 .navLink {
-    
-    text-decoration: none;
+  text-decoration: none;
+  background-color: black;
+  color: white;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .navItem {
+        margin-bottom: 10px;
+    }
+
+    .navLink {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navLink {
+        font-size: 0.9rem;
+    }
+
+    img {
+        width: 30px;
+    }
 }

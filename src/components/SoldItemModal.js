@@ -53,7 +53,9 @@ const SoldItemModal = ({ onClose, onAddSoldItem }) => {
           </div>
           <button type="submit" className="add-btn">ADD</button>
         </form>
+        <div style={{textAlign:"center"}}>
         <button className="close-btn" onClick={onClose}>Close</button>
+        </div>  
       </div>
     </div>
   );
