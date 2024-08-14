@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import myImage from "../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png"
 
 
 import {
@@ -27,6 +27,7 @@ import {
   Bar,
   PieChart,
   Pie,
+  ResponsiveContainer
 } from "recharts";
 import "./AdminPage.css";
 
@@ -57,6 +58,7 @@ const AdminPage = () => {
 
 
 
+
   const groupSalesByProduct = (sales) => {
     return sales.reduce((groups, sale) => {
       const { product_name } = sale;
@@ -70,6 +72,41 @@ const AdminPage = () => {
   };
 
   const [groupedSalesProduct, setGroupedSalesProduct] = useState({}); // initialize state for grouped sales
+
+
+
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [editedUnitPrice, setEditedUnitPrice] = useState("");
+  const [editedBuyingPrice, setEditedBuyingPrice] = useState("");
+
+  const handleEditClick = (product) => {
+    setEditingProductId(product.id);
+    setEditedUnitPrice(product.selling_price);
+    setEditedBuyingPrice(product.buying_price);
+  };
+
+  const handleSaveClick = (productId) => {
+    // Save the edited values here, probably via an API call
+    fetch(`https://my-duka-back-end.vercel.app/updateProduct/${productId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        selling_price: editedUnitPrice,
+        buying_price: editedBuyingPrice,
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setEditingProductId(null);
+        setRefreshData((prev) => !prev); // Refresh the data to reflect changes
+      });
+  };
+
+  const handleCancelClick = () => {
+    setEditingProductId(null);
+  };
 
   useEffect(() => {
     setGroupedSalesProduct(groupSalesByProduct(sales));
@@ -306,15 +343,14 @@ const AdminPage = () => {
   if (user.role === "Admin" || user.role === "Merchant"){
     return (
         <div className="admin-page">
-          <aside className="sidebar">
+          <aside className="sidebarAdmin">
             <h2>My Duka</h2>
-            <button className="logout-btn" onClick={handleLogout}>
-              Log Out
-            </button>
+
+            <div  className='navItem' style={{gap:"1rem"}}><img src={myImage} width={30} alt="logout"/> <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2></div>
           </aside>
           <main className="main-content">
             <header>
-              <h1>Admin</h1>
+              <h1>{user.role === "Admin" ? user.username : storeAdmin.username}</h1>
               <button
                 className="add-clerk-btn"
                 onClick={() => setShowAddClerkPopup(true)}
@@ -325,7 +361,8 @@ const AdminPage = () => {
     
             <section className="supply-requests">
               <h2>Supply Requests</h2>
-              <table>
+              <div className="table-responsive"> 
+              <table >
                 <thead>
                   <tr>
                     <th>Clerk</th>
@@ -367,46 +404,86 @@ const AdminPage = () => {
                   </tbody>
                 )}
               </table>
+              </div>
             </section>
     
             <section className="products">
-              <h2>Products</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Item</th>
-                    <th>Paid Status</th>
-                    <th>Spoilt</th>
-                    <th>Remaining Stock</th>
-                    <th>Unit Price</th>
-                    <th>Buying Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id}>
-                      <td>{product.product_name}</td>
-                      <td>
-                        {product.payment_status === "paid" ? (
-                          "Paid"
-                        ) : (
-                          <button onClick={() => handleMarkAsPaid(product.id)}>
-                            Mark as Paid
-                          </button>
-                        )}
-                      </td>
-                      <td>{product.spoilt_items}</td>
-                      <td>{product.closing_stock}</td>
-                      <td>{product.selling_price}</td>
-                      <td>{product.buying_price}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </section>
+      <h2>Products</h2>
+      
+      <div className="table-responsive"> 
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Paid Status</th>
+            <th>Spoilt</th>
+            <th>Remaining Stock</th>
+            <th>Unit Price</th>
+            <th>Buying Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.product_name}</td>
+              <td>
+                {product.payment_status === "paid" ? (
+                  "Paid"
+                ) : (
+                  <button onClick={() => handleMarkAsPaid(product.id)}>
+                    Mark as Paid
+                  </button>
+                )}
+              </td>
+              <td>{product.spoilt_items}</td>
+              <td>{product.closing_stock}</td>
+              <td>
+                {editingProductId === product.id ? (
+                  <input
+                    type="number"
+                    value={editedUnitPrice}
+                    onChange={(e) => setEditedUnitPrice(e.target.value)}
+                  />
+                ) : (
+                  product.selling_price
+                )}
+              </td>
+              <td>
+                {editingProductId === product.id ? (
+                  <input
+                    type="number"
+                    value={editedBuyingPrice}
+                    onChange={(e) => setEditedBuyingPrice(e.target.value)}
+                  />
+                ) : (
+                  product.buying_price
+                )}
+              </td>
+              <td>
+                {editingProductId === product.id ? (
+                  <>
+                    <button onClick={() => handleSaveClick(product.id)}>
+                      Save
+                    </button>
+                    <button onClick={handleCancelClick}>Cancel</button>
+                  </>
+                ) : (
+                  <button onClick={() => handleEditClick(product)}>
+                    Edit
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    </section>
     
             <section className="clerks">
               <h2>Clerks</h2>
+              <div className="table-responsive"> 
               <table>
                 <thead>
                   <tr>
@@ -440,6 +517,7 @@ const AdminPage = () => {
                   ))}
                 </tbody>
               </table>
+              </div>
             </section>
 
 
@@ -447,6 +525,7 @@ const AdminPage = () => {
             {Object.keys(groupedSales).map((itemName) => (
               <section key={itemName} className="clerk-sales">
                 <h3>{itemName}</h3>
+                <div className="table-responsive"> 
                 <table>
                   <thead>
                     <tr>
@@ -469,6 +548,7 @@ const AdminPage = () => {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </section>
             ))}
     
@@ -480,6 +560,7 @@ const AdminPage = () => {
                     {product.charAt(0).toUpperCase() + product.slice(1)} Sales
                     Trends
                   </h3>
+                  <ResponsiveContainer width="100%" height={400}>
                   <LineChart width={600} height={300} data={data}>
                     <XAxis dataKey="date" />
                     <YAxis yAxisId="left" />
@@ -509,11 +590,13 @@ const AdminPage = () => {
                       name="Profit (KSH)"
                     />
                   </LineChart>
+                  </ResponsiveContainer>
                 </div>
               ))}
             </section>
             <section className="product-performance-comparison">
               <h2>Product Performance Comparison</h2>
+              <ResponsiveContainer width="100%" height={400}>
               <BarChart width={800} height={400} data={result}>
                 <XAxis dataKey="name" />
                 <YAxis yAxisId="left" />
@@ -534,9 +617,11 @@ const AdminPage = () => {
                   name="Profit (KSH)"
                 />
               </BarChart>
+              </ResponsiveContainer>
             </section>
             <section className="clerk-performance-comparison">
               <h2>Clerk Performance Comparison</h2>
+               <ResponsiveContainer width="100%" height={400}>
               <PieChart width={800} height={400}>
                 <Pie
                   data={clerkSalesData}
@@ -550,6 +635,7 @@ const AdminPage = () => {
                 <Tooltip />
                 <Legend />
               </PieChart>
+              </ResponsiveContainer>
             </section>
           </main>
     
