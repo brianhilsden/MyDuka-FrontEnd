@@ -14,7 +14,7 @@ const ConfirmPackageModal = ({ onClose, onConfirmPackage }) => {
         <p>Unit Pricing: {currentPackage.price}</p>
         <p>Stock: {currentPackage.stock}</p>
         <button onClick={onConfirmPackage}>Submit</button>
-        <button onClick={onClose}>Edit</button>
+        <button onClick={onClose}>Cancel</button>
       </div>
     </div>
   );

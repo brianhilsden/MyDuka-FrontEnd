@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
-import myImage from '../assets/images/a624e937b25af2336c6559e4e4b7bf7f.jpg';
+import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <div className="left-panel">
         <h1>Welcome to MY DUKA</h1>
-        <img src={myImage} alt="Background" />
+        <img src={myImage} style={{width:"100%"}} alt="Background" />
       </div>
       <div className="right-panel">
         <h2>Continue As</h2>
@@ -27,3 +27,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+

@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { addUser } from '../features/userSlice';
 import './Signup.css'; 
+import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
+
 
 export default function Signup() {
   const [searchParams] = useSearchParams();
@@ -99,13 +101,7 @@ export default function Signup() {
         
         <div className="welcome-section">
           <h1 className="title">Welcome to MY DUKA</h1>
-          <img
-              src="https://i.pinimg.com/564x/a6/24/e9/a624e937b25af2336c6559e4e4b7bf7f.jpg" 
-              alt="Illustration"
-              className="illustration"
-             
-              
-            />
+          <img src={myImage} style={{width:"100%"}} alt="Background" />
           <p className="description">
             Join us to manage your inventory efficiently and grow your business.
           </p>
@@ -182,12 +178,13 @@ export default function Signup() {
             </form>
             <p className="login-link">
               Already have an account?{" "}
-              <button
+              <p
                 className="login-button"
                 onClick={() => navigate("/login")}
+                style={{cursor:"pointer", textDecoration:"none"}} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
               >
                 Log In
-              </button>
+              </p>
             </p>
            
           </div>

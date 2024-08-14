@@ -26,7 +26,7 @@
     margin-bottom: 5px;
   }
   
-  input {
+  .form-group input {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -51,3 +51,47 @@
     cursor: pointer;
     margin-top: 10px;
   }
+  /* Sold Item Modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .form-group input {
+    padding: 8px;
+  }
+
+  .add-btn, .close-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Confirm Package Modal */
+@media (max-width: 768px) {
+  .confirm-package-modal {
+    width: 90%;
+  }
+
+  .confirm-package-modal .package-details div {
+    margin: 4px 0;
+  }
+
+  .confirm-package-modal button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Add Package Modal */
+@media (max-width: 768px) {
+  .add-package-modal input {
+    padding: 8px;
+  }
+
+  .add-package-modal button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

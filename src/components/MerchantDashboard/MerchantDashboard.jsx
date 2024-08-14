@@ -62,7 +62,7 @@ const MerchantDashboard = () => {
             <Sidebar />
             <div className={styles.mainContent}>
                 <div className={styles.header}>
-                    <h1>Merchant Dashboard</h1>
+                    <h1>Merchant Dashboard - {user.username}</h1>
                     <button onClick={toggleAddAdminForm} className={styles.addButton}>Add Admin</button>
                 </div>
                 {admins.map(admin => (
