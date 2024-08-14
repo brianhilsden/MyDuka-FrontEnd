@@ -16,6 +16,7 @@
     "react-scripts": "5.0.1",
     "recharts": "^2.12.7",
     "redux": "^5.0.1",
+    "socket.io-client": "^4.7.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -45,6 +46,10 @@
     ]
   },
   "devDependencies": {
+
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+
+
     "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7",
     "@testing-library/jest-dom": "^6.4.8",
@@ -52,5 +57,6 @@
     "babel-jest": "^29.7.0",
     "gh-pages": "^6.1.1",
     "jest": "^27.5.1"
+
   }
 }

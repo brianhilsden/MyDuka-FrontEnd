@@ -8,7 +8,7 @@ import { addUser } from './features/userSlice';
 
 import Signup from './components/Signup'; // Ensure the path is correct
 
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import MerchantDashboard from './components/MerchantDashboard/MerchantDashboard';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
@@ -36,7 +36,7 @@ const App = () => {
         return response.json(); // Parse JSON response
       })
       .then(userData => {
-        console.log(userData);
+        
         
         dispatch(addUser(userData)); // Set user data once fetched
       })
