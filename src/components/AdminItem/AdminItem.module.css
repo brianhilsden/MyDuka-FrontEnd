@@ -13,17 +13,35 @@
     cursor: pointer;
     color: white;
     text-decoration: none;
+    
+    
 }
 
 .deleteButton {
-    background-color: red;
+ background: rgb(202, 13, 13);
+    
 }
 
+
 .inactivateButton {
-    background-color: brown;
+    
+background: #D07F0C;
+    
 }
 
 .viewButton {
-    background-color: blue;
+    background: #134E85;;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    .adminItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .button {
+        width: 100%;
+        margin: 5px 0;
+    }
 }

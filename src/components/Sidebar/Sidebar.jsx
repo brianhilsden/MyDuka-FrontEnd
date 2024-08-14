@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
+import myImage from "../../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png"
 
 const Sidebar = () => {
     const navigate = useNavigate()
@@ -12,11 +13,12 @@ const Sidebar = () => {
 
     return (
         <div className={styles.sidebar}>
-            <h2>My Duka</h2>
-            <nav>
+            <h2 style={{color:"white"}}>My Duka</h2>
+            <nav style={{display:"flex",alignItems:"center"}}>
                 <ul className={styles.navList}>
                     <li className={styles.navItem}>
-                        <button onClick={handleLogout} className={styles.navLink}>Log Out</button>
+                        <img src={myImage} width="40"/>
+                        <h2 onClick={handleLogout} className={styles.navLink} style={{cursor:"pointer", textDecoration:"none"}} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>Log Out</h2>
                     </li>
                 </ul>
             </nav>

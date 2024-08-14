@@ -3,19 +3,22 @@
   font-family: Arial, sans-serif;
 }
 
-.sidebar {
+.sidebarClerk {
   width: 250px;
-  background-color: #000;
+  background-color: #6610f2;
   color: #fff;
   padding: 20px;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease-in-out;
 }
 
 .sidebar h2 {
   margin-bottom: 20px;
 }
 
-.sidebar button {
+.sidebarClerk button {
   background: none;
   border: none;
   color: #fff;
@@ -148,4 +151,127 @@ tr:nth-child(even) {
 
 .modal-content p {
   margin-bottom: 10px;
+}
+.navItem{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+/* General adjustments for smaller screens */
+@media (max-width: 1024px) {
+  .sidebarClerk {
+    width: 200px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .sell-btn, .request-btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar collapses into a top bar */
+  .clerks-page {
+    flex-direction: column;
+  }
+
+  .sidebarClerk {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .sidebarClerk button {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sell-btn, .request-btn {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  .inventory h2, .sales h2 {
+    font-size: 18px;
+  }
+
+  .inventory table, .sales table {
+    font-size: 12px;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 300px;
+    padding: 15px;
+  }
+
+  .modal-content button {
+    padding: 8px 16px;
+  }
+
+  .confirm-package-modal, .add-package-modal {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for very small screens */
+  header h1 {
+    font-size: 20px;
+  }
+
+  .inventory, .sales {
+    padding: 15px;
+  }
+
+  .inventory h2, .sales h2 {
+    font-size: 16px;
+  }
+
+  .sidebarClerk button {
+    font-size: 12px;
+  }
+
+  .sell-btn, .request-btn {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  th, td {
+    font-size: 10px;
+    padding: 6px;
+  }
+
+  .modal-content {
+    padding: 10px;
+  }
+
+  .modal-content button {
+    font-size: 12px;
+  }
+
+  .confirm-package-modal, .add-package-modal {
+    width: 100%;
+    max-width: 280px;
+    padding: 10px;
+  }
+
+  .confirm-package-modal button, .add-package-modal button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }

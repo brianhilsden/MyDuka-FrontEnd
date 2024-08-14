@@ -7,11 +7,14 @@ import ConfirmPackageModal from './ConfirmPackageModal';
 import SoldItemModal from './SoldItemModal';
 import './ClerksPage.css';
 import { useNavigate } from 'react-router-dom';
+import myImage from "../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png"
 
 
 const ClerksPage = () => {
   const [inventory, setInventory] = useState([]);
   const [sales, setSales] = useState([]);
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editedSpoiltItems, setEditedSpoiltItems] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,17 +32,17 @@ const ClerksPage = () => {
       .then(data => setInventory(data));
   }, [truthValue,user, store_id,sales]);
 
-  
+
 
   useEffect(() => {
-    fetch(`https://my-duka-back-end.vercel.app/ales/${store_id}`)
+    fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`)
       .then(res => res.json())
       .then(data => setSales(data.sales))
-    
-   
-      
-      
-      
+
+
+
+
+
   }, [store_id,inventory,truthValue]);
 
 
@@ -48,7 +51,7 @@ const ClerksPage = () => {
   };
 
   const handleAddPackage = (pkg) => {
-   
+
     dispatch(setCurrentPackage(pkg));
     setShowAddModal(false);
     setShowConfirmModal(true);
@@ -56,7 +59,7 @@ const ClerksPage = () => {
 
   const handleConfirmPackage = () => {
  ;
-    
+
     fetch(`https://my-duka-back-end.vercel.app/requests/${store_id}`,{
       method:"POST",
       headers:{
@@ -71,11 +74,11 @@ const ClerksPage = () => {
         category:currentPackage.category
       })
     }
-      
+
     )
     .then(res=>res.json())
-    .then(data=>console.log(data)
-    )
+  
+    
     dispatch(clearCurrentPackage());
     setShowConfirmModal(false);
   };
@@ -85,9 +88,7 @@ const ClerksPage = () => {
   };
 
   const handleAddSoldItem = (soldItem) => {
-  
-    
- 
+
       fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`,{
         method:"POST",
         headers:{
@@ -100,17 +101,25 @@ const ClerksPage = () => {
           clerk_id : user.id
         })
       }
-        
+
       )
       .then(res=>res.json())
-     
-      
-    
-  
+
+
+
+
     console.log('Sold item:', soldItem);
     //dispatch(addsoldItem(soldItem));
     setShowSoldItemModal(false);
     dispatch(switchTruthValue())
+  };
+
+  const handleSpoiltItemsChange = (itemId, newSpoiltItems) => {
+    setInventory(prevInventory =>
+      prevInventory.map(item =>
+        item.id === itemId ? { ...item, spoilt_items: newSpoiltItems } : item
+      )
+    );
   };
 
   const handleLogout = () => {
@@ -136,12 +145,42 @@ const ClerksPage = () => {
     );
   }
 
+  const handleEditClick = (itemId, spoiltItems) => {
+    setEditingItemId(itemId);
+    setEditedSpoiltItems(spoiltItems);
+  };
+
+  const handleSaveClick = (itemId) => {
+    handleSpoiltItemsChange(itemId, editedSpoiltItems);
+
+    setEditingItemId(null);
+  
+     
+      fetch(`https://my-duka-back-end.vercel.app/updateProduct/${itemId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          spoilt_items: editedSpoiltItems,
+        
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setEditingItemId(null);
+        });
+  
+  
+  };
+
   if (user.role === "Clerk") {
     return (
       <div className="clerks-page">
-        <aside className="sidebar">
+        <aside className="sidebarClerk">
           <h2>My Duka</h2>
-          <button onClick={handleLogout}>Log Out</button>
+          <div  className='navItem'><img src={myImage} width={30} alt='logout'/> <button onClick={handleLogout}>Log Out</button></div>
+
         </aside>
         <main className="main-content">
           <header>
@@ -153,6 +192,7 @@ const ClerksPage = () => {
           </header>
           <section className="inventory">
             <h2>Inventory</h2>
+            <div className="table-responsive"> 
             <table>
               <thead>
                 <tr>
@@ -172,19 +212,38 @@ const ClerksPage = () => {
                     <td>{item.payment_status}</td>
                     <td>{item.closing_stock}</td>
                     <td>kg</td>
-                    <td>{item.spoilt_items}</td>
+                    <td style={{display:"flex",gap:"1rem"}}>
+                      {editingItemId === item.id ? (
+                        <div  >
+                          <input
+                            type="number"
+                            value={editedSpoiltItems}
+                            onChange={e => setEditedSpoiltItems(parseInt(e.target.value))}
+                            style={{width:"50%"}}
+                          />
+                          <button onClick={() => handleSaveClick(item.id)}>Save</button>
+                        </div>
+                      ) : (
+                        <>
+                          {item.spoilt_items}
+                          <button onClick={() => handleEditClick(item.id, item.spoilt_items)}>Edit</button>
+                        </>
+                      )}
+                    </td>
                     <td>{item.buying_price}</td>
                     <td>{item.selling_price}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
           </section>
           <section className="sales">
             <h2>Sales</h2>
             {Object.keys(groupedSales).map((itemName) => (
               <div key={itemName}>
                 <h3>{itemName}</h3>
+                <div className="table-responsive"> 
                 <table>
                   <thead>
                     <tr>
@@ -207,6 +266,7 @@ const ClerksPage = () => {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             ))}
           </section>

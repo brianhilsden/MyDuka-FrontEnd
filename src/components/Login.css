@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+
 }
 
 .left {
@@ -98,4 +98,17 @@ button:hover {
   background-color: black;
   color: white;
   cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .left, .right {
+    width: 100%;
+  }
+  .left img {
+    height: auto;
+  }
 }
