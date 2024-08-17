@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
-import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
+import myImage from '../assets/images/b916ee86f6025021330e27de0684542c.jpg'
 
 const LandingPage = () => {
   const navigate = useNavigate();

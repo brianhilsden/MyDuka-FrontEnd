@@ -40,11 +40,25 @@ const AdminPage = () => {
   const [showAddClerkPopup, setShowAddClerkPopup] = useState(false);
    // Add these lines here
    const [darkMode, setDarkMode] = useState(false);
+   useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode) {
+      setDarkMode(JSON.parse(savedMode));
+    }
+  }, []);
+  
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('darkMode', JSON.stringify(newMode));
+  };
 
-   const toggleDarkMode = () => {
-     setDarkMode(!darkMode);
-     // You might want to save this preference to localStorage or your state management system
-   };
+  //  const toggleDarkMode = () => {
+  //    setDarkMode(!darkMode);
+  //    // You might want to save this preference to localStorage or your state management system
+  //  };
+   
+
 
   // Insert the new code snippet here
   const [showAddProductPopup, setShowAddProductPopup] = useState(false);
@@ -382,9 +396,9 @@ const AdminPage = () => {
   const clerkSalesData = calculateClerkSales(clerks);
   if (user.role === "Admin" || user.role === "Merchant"){
     return (
-        <div className="admin-page">
-          
-          <aside className="sidebarAdmin">
+        // <div className="admin-page">
+        <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}> 
+          {/* <aside className="sidebarAdmin">
   <h2>My Duka</h2>
   <div className='navItem' style={{gap:"1rem"}}>
     <img src={myImage} width={30} alt="logout"/>
@@ -396,8 +410,21 @@ const AdminPage = () => {
   <button onClick={toggleDarkMode}>
     {darkMode ? 'Light Mode' : 'Dark Mode'}
   </button>
+</aside> */}
+<aside className="sidebarAdmin">
+  <h2>My Duka</h2>
+  <button onClick={toggleDarkMode}>
+    {darkMode ? 'Light Mode' : 'Dark Mode'}
+  </button>
+  <div className='navItem' style={{gap:"1rem"}}>
+    <img src={myImage} width={30} alt="logout"/>
+    <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2>
+  </div>
+  <button className="add-product-btn" onClick={handleAddProductClick}>
+    <span className="plus-icon">+</span> Add Product
+  </button>
 </aside>
-<div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}></div>
+{/* <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}></div> */}
           <main className="main-content">
             
             <header>
