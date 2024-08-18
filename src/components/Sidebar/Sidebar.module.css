@@ -6,7 +6,7 @@
   gap: 20px;
 
   width: 320px;
-  height: 1383px;
+  height: 100vh; /* Adjusted to make sidebar fit the screen height */
 
   background: black;
 
@@ -15,6 +15,26 @@
   order: 0;
   align-self: stretch;
   flex-grow: 0;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profileIcon {
+  width: 80px; /* Adjust size as needed */
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.profileName {
+  color: white;
+  font-size: 1.2rem;
 }
 
 .navList {
@@ -30,7 +50,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
- 
+
   gap: 12px;
 
   background: #000000;
@@ -41,9 +61,6 @@
   order: 10;
   flex-grow: 0;
 }
-/* Nav */
-
-/* Auto layout */
 
 .navLink {
   text-decoration: none;
@@ -52,26 +69,31 @@
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-    }
+  .sidebar {
+      width: 100%;
+      height: auto;
+  }
 
-    .navItem {
-        margin-bottom: 10px;
-    }
+  .navItem {
+      margin-bottom: 10px;
+  }
 
-    .navLink {
-        font-size: 1rem;
-    }
+  .navLink {
+      font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .navLink {
-        font-size: 0.9rem;
-    }
+  .navLink {
+      font-size: 0.9rem;
+  }
 
-    img {
-        width: 30px;
-    }
+  img {
+      width: 30px;
+  }
+
+  .profileIcon {
+      width: 60px; /* Adjust size for smaller screens */
+      height: 60px;
+  }
 }
