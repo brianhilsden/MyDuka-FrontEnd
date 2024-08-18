@@ -100,7 +100,7 @@ export default function Signup() {
       <div className="combined-section">
         
         <div className="welcome-section">
-          <h1 className="title">Welcome to MY DUKA</h1>
+          <h1 className="title">Welcome to MyDuka</h1>
           <img src={myImage} style={{width:"100%"}} alt="Background" />
           <p className="description">
             Join us to manage your inventory efficiently and grow your business.

@@ -4,6 +4,7 @@ import './Login.css';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../features/userSlice';
 import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
+import { Image } from 'cloudinary-react';
 
 
 
@@ -44,6 +45,8 @@ const Login = () => {
         localStorage.setItem("access_token", data.access_token);
         let loggedIn = data.user
         dispatch(addUser(loggedIn))
+        console.log(loggedIn);
+        
 
         if (loggedIn.role === "Clerk"){
           navigate(`/clerk/${loggedIn.id}`)
@@ -78,8 +81,9 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="left">
-        <h1>Welcome to MY DUKA</h1>
+        <h1>Welcome to MyDuka</h1>
         <img src={myImage} style={{width:"100%"}} alt="Background" />
+       
       </div>
       <div className="right">
         <h2>Login as {role}</h2>

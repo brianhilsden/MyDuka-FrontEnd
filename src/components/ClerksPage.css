@@ -1,10 +1,12 @@
 .clerks-page {
   display: flex;
   font-family: Arial, sans-serif;
+
 }
 
 .sidebarClerk {
   width: 250px;
+
   background-color: #6610f2;
   color: #fff;
   padding: 20px;

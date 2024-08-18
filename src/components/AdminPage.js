@@ -344,9 +344,9 @@ const AdminPage = () => {
     return (
         <div className="admin-page">
           <aside className="sidebarAdmin">
-            <h2>My Duka</h2>
-
-            <div  className='navItem' style={{gap:"1rem"}}><img src={myImage} width={30} alt="logout"/> <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2></div>
+            <h2 onClick={()=>navigate(`/admin/${user.id}`)} style={{cursor:"pointer"}}>My Duka</h2>
+            <h2 onClick={()=>navigate("/chatBot")}>Messages</h2>
+            <div  className='navItem' style={{gap:"1rem"}}><img src={myImage} width={30} alt="logout"/> <h2 onClick={handleLogout} style={{cursor:"pointer", textDecoration:"none",marginTop:"0.8rem"}} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>Log Out</h2></div>
           </aside>
           <main className="main-content">
             <header>

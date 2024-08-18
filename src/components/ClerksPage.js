@@ -37,12 +37,10 @@ const ClerksPage = () => {
   useEffect(() => {
     fetch(`https://my-duka-back-end.vercel.app/sales/${store_id}`)
       .then(res => res.json())
-      .then(data => setSales(data.sales))
+      .then(data => setSales(data.sales.filter(sale => sale.clerk_id === user.id)))
 
 
-
-
-
+    
   }, [store_id,inventory,truthValue]);
 
 
@@ -60,7 +58,7 @@ const ClerksPage = () => {
   const handleConfirmPackage = () => {
  ;
 
-    fetch(`https://my-duka-back-end.vercel.app/requests/${store_id}`,{
+    fetch(`http://127.0.0.1:5555/requests/${store_id}`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -179,6 +177,7 @@ const ClerksPage = () => {
       <div className="clerks-page">
         <aside className="sidebarClerk">
           <h2>My Duka</h2>
+          <h2 onClick={()=>navigate("/chatBot")}>Messages</h2>
           <div  className='navItem'><img src={myImage} width={30} alt='logout'/> <button onClick={handleLogout}>Log Out</button></div>
 
         </aside>

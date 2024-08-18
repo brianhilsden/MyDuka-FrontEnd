@@ -6,9 +6,9 @@
   gap: 20px;
 
   width: 320px;
-  height: 1383px;
 
-  background: black;
+
+  background-color: #6610f2;
 
   /* Inside auto layout */
   flex: none;
@@ -33,7 +33,7 @@
  
   gap: 12px;
 
-  background: #000000;
+ 
   border-radius: 8px;
 
   /* Inside auto layout */
@@ -75,3 +75,4 @@
         width: 30px;
     }
 }
+  
