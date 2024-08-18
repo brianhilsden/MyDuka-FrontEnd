@@ -32,17 +32,71 @@ import {
 import "./AdminPage.css";
 
 
-
 const AdminPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [newClerkName, setNewClerkName] = useState("");
   const [newClerkEmail, setNewClerkEmail] = useState("");
   const [showAddClerkPopup, setShowAddClerkPopup] = useState(false);
+   // Add these lines here
+   const [darkMode, setDarkMode] = useState(false);
+   useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode) {
+      setDarkMode(JSON.parse(savedMode));
+    }
+  }, []);
+  
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('darkMode', JSON.stringify(newMode));
+  };
 
+  //  const toggleDarkMode = () => {
+  //    setDarkMode(!darkMode);
+  //    // You might want to save this preference to localStorage or your state management system
+  //  };
+   
+
+
+  // Insert the new code snippet here
+  const [showAddProductPopup, setShowAddProductPopup] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    brand_name: "",
+    product_name: "",
+    number_of_items: "",
+    buying_price: "",
+    selling_price: ""
+  });
+
+  const handleAddProductClick = () => {
+    setShowAddProductPopup(true);
+  };
+
+  const handleAddProductChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddProductSubmit = () => {
+    // Implementation for adding the product
+    console.log("New product:", newProduct);
+    // Reset form and close popup
+    setNewProduct({
+      brand_name: "",
+      product_name: "",
+      number_of_items: "",
+      buying_price: "",
+      selling_price: ""
+    });
+    setShowAddProductPopup(false);
+  };
+  // End of new code snippet
 
   const [sales, setSales] = useState([]);
   const [refreshData, setRefreshData] = useState(false);
+
 
   const {
     supplyRequests = [],
@@ -342,13 +396,37 @@ const AdminPage = () => {
   const clerkSalesData = calculateClerkSales(clerks);
   if (user.role === "Admin" || user.role === "Merchant"){
     return (
-        <div className="admin-page">
-          <aside className="sidebarAdmin">
-            <h2>My Duka</h2>
-
-            <div  className='navItem' style={{gap:"1rem"}}><img src={myImage} width={30} alt="logout"/> <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2></div>
-          </aside>
+        // <div className="admin-page">
+        <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}> 
+          {/* <aside className="sidebarAdmin">
+  <h2>My Duka</h2>
+  <div className='navItem' style={{gap:"1rem"}}>
+    <img src={myImage} width={30} alt="logout"/>
+    <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2>
+  </div>
+  <button className="add-product-btn" onClick={handleAddProductClick}>
+    <span className="plus-icon">+</span> Add Product
+  </button>
+  <button onClick={toggleDarkMode}>
+    {darkMode ? 'Light Mode' : 'Dark Mode'}
+  </button>
+</aside> */}
+<aside className="sidebarAdmin">
+  <h2>My Duka</h2>
+  <button onClick={toggleDarkMode}>
+    {darkMode ? 'Light Mode' : 'Dark Mode'}
+  </button>
+  <div className='navItem' style={{gap:"1rem"}}>
+    <img src={myImage} width={30} alt="logout"/>
+    <h2 onClick={handleLogout} style={{marginTop:"0.8rem"}}>Log Out</h2>
+  </div>
+  <button className="add-product-btn" onClick={handleAddProductClick}>
+    <span className="plus-icon">+</span> Add Product
+  </button>
+</aside>
+{/* <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}></div> */}
           <main className="main-content">
+            
             <header>
               <h1>{user.role === "Admin" ? user.username : storeAdmin.username}</h1>
               <button
@@ -579,14 +657,15 @@ const AdminPage = () => {
                       yAxisId="left"
                       type="monotone"
                       dataKey="quantity_in_hand"
-                      stroke="#ff0000"
+                      stroke={darkMode ? "#ffd700" : "#ffc658"}
                       name="Quantity in Hand"
                     />
                     <Line
                       yAxisId="right"
                       type="monotone"
                       dataKey="profit"
-                      stroke="#82ca9d"
+                          stroke={darkMode ? "#ff6b6b" : "#ff0000"}
+
                       name="Profit (KSH)"
                     />
                   </LineChart>
@@ -638,6 +717,50 @@ const AdminPage = () => {
               </ResponsiveContainer>
             </section>
           </main>
+          {showAddProductPopup && (
+  <div className="popup">
+    <div className="popup-content">
+      <h2>Add New Product</h2>
+      <input
+        type="text"
+        name="brand_name"
+        value={newProduct.brand_name}
+        onChange={handleAddProductChange}
+        placeholder="Brand Name"
+      />
+      <input
+        type="text"
+        name="product_name"
+        value={newProduct.product_name}
+        onChange={handleAddProductChange}
+        placeholder="Product Name"
+      />
+      <input
+        type="number"
+        name="number_of_items"
+        value={newProduct.number_of_items}
+        onChange={handleAddProductChange}
+        placeholder="Number of Items"
+      />
+      <input
+        type="number"
+        name="buying_price"
+        value={newProduct.buying_price}
+        onChange={handleAddProductChange}
+        placeholder="Buying Price"
+      />
+      <input
+        type="number"
+        name="selling_price"
+        value={newProduct.selling_price}
+        onChange={handleAddProductChange}
+        placeholder="Selling Price"
+      />
+      <button onClick={handleAddProductSubmit}>Add</button>
+      <button onClick={() => setShowAddProductPopup(false)}>Cancel</button>
+    </div>
+  </div>
+)}
     
           {showAddClerkPopup && (
             <div className="popup">
