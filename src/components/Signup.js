@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { addUser } from '../features/userSlice';
 import './Signup.css'; 
-import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
+import myImage from '../assets/images/e242a5362a5b0f6dae0b5b3fdbafe721.jpg';
 
 
 export default function Signup() {
