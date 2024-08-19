@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 2rem;
   transition: width 0.3s ease-in-out;
 }
 
@@ -33,8 +34,26 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
+  width: 20rem;
 }
 
+/* Adjustments for tablets */
+@media (max-width: 768px) {
+  .add-product-btn {
+    width: 10rem; /* Reduced width for tablets */
+    font-size: 14px; /* Slightly smaller font size */
+    padding: 8px 16px; /* Reduced padding */
+  }
+}
+
+/* Adjustments for phones */
+@media (max-width: 480px) {
+  .add-product-btn {
+    width: 8rem; /* Further reduced width for phones */
+    font-size: 12px; /* Smaller font size */
+    padding: 6px 12px; /* Further reduced padding */
+  }
+}
 .add-product-btn:hover {
   background-color: #45a049;
 }
@@ -53,7 +72,7 @@
 
 .popup-content {
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 5px;
   width: 300px;
 }
@@ -91,9 +110,20 @@
   background-color: #333;
   color: #fff;
 }
-
+.dark-mode h2{
+  color: white;
+}
 .dark-mode .sidebarAdmin {
   background-color: #222;
+}
+
+.dark-mode label{
+  color: white;
+}
+
+.dark-mode input::placeholder {
+  color:white; /* Change this to your desired color */
+  opacity: 1;  /* Optional: Adjust opacity if needed */
 }
 
 .dark-mode .main-content {
@@ -111,6 +141,7 @@
 
 .dark-mode td {
   border-bottom: 1px solid #777;
+  color: black;
 }
 
 .dark-mode .popup-content {
@@ -380,4 +411,3 @@ button:hover {
     overflow-x: auto; /* Enable horizontal scrolling */
   }
 }
-

@@ -11,7 +11,7 @@ import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
 
 export default function Signup() {
   const [searchParams] = useSearchParams();
-  const [formData,setFormData] = useState({full_name:"",phone_number:"",email:"",password:"",confirmPassword:""})
+  const [formData,setFormData] = useState({full_name:"",phone_number:"",email:"",password:"",confirmPassword:"",profilePicture:""})
   const token = searchParams.get('token');
   const [validationError,setValidationError] = useState()
   const [validToken, setValidToken] = useState(false);
@@ -100,7 +100,7 @@ export default function Signup() {
       <div className="combined-section">
         
         <div className="welcome-section">
-          <h1 className="title">Welcome to MY DUKA</h1>
+          <h1 className="title">Welcome to MyDuka</h1>
           <img src={myImage} style={{width:"100%"}} alt="Background" />
           <p className="description">
             Join us to manage your inventory efficiently and grow your business.
@@ -123,6 +123,18 @@ export default function Signup() {
                   value={formData.full_name}
                 />
               </div>
+              <div className="input-group">
+                <UserIcon className="icon" />
+                <input
+                  type="text"
+                  placeholder="Image link"
+                  className="input"
+                  onChange={handleChange}
+                  name = "profilePicture"
+                  value={formData.profilePicture}
+                />
+              </div>
+              
 
               <div className="input-group">
                 <PhoneIcon className="icon" />

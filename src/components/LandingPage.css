@@ -15,6 +15,9 @@
     text-align: center;
    
   }
+  .left-panel h1{
+    margin-top: 4.5rem;
+  }
   
   .left-panel img {
     max-width: 100%;

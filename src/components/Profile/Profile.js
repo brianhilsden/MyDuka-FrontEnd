@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import styles from './Profile.module.css';
+import { useSelector,useDispatch } from 'react-redux';
+
+import { addUser } from '../../features/userSlice';
 
 const Profile = ({ onClose }) => {
+
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+    
+    
     const [userDetails, setUserDetails] = useState({
-        name: 'Ryan Maiyo',
-        username: "ryan",
-        email: 'ryan@gmail.com',
-        phone: '+254 725 45523',
+     
+        username: user.username,
+        email: user.email,
+        phone_number: user.phone_number,
+        profilePicture:user.profilePicture
     });
 
     const handleChange = (e) => {
@@ -19,14 +28,31 @@ const Profile = ({ onClose }) => {
 
     const handleSave = () => {
         // Save the updated details
-        console.log('Saved details:', userDetails);
+        console.log(userDetails);
+        
+       
+        fetch(`https://my-duka-back-end.vercel.app/editUser/${user.id}`,
+            {
+                method:"PATCH",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({...userDetails,role:user.role})
+            }
+        ).then(res=>res.json()).then((data)=>{
+            console.log(data);
+            
+            dispatch(addUser(data))
+        }
+
+        )
         onClose();
     };
 
     return (
         <div className={styles.profileContainer}>
             <div className={styles.profileHeader}>
-                <h2>I'm {userDetails.name}</h2>
+                
                 <button onClick={onClose} className={styles.closeButton}>X</button>
             </div>
             <div className={styles.profileDetails}>
@@ -52,8 +78,17 @@ const Profile = ({ onClose }) => {
                     Phone:
                     <input
                         type="text"
-                        name="phone"
-                        value={userDetails.phone}
+                        name="phone_number"
+                        value={userDetails.phone_number}
+                        onChange={handleChange}
+                    />
+                </label>
+                <label>
+                    Profile picture:
+                    <input
+                        type="text"
+                        name="profilePicture"
+                        value={userDetails.profilePicture}
                         onChange={handleChange}
                     />
                 </label>

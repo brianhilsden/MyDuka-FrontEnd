@@ -13,7 +13,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <div className="left-panel">
-        <h1>Welcome to MY DUKA</h1>
+        <h1>Welcome to MyDuka</h1>
         <img src={myImage} style={{width:"100%"}} alt="Background" />
       </div>
       <div className="right-panel">
