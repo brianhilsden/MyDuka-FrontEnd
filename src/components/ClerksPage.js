@@ -8,6 +8,7 @@ import SoldItemModal from './SoldItemModal';
 import './ClerksPage.css';
 import { useNavigate } from 'react-router-dom';
 import myImage from "../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png"
+import Sidebar from './Sidebar/Sidebar';
 
 
 const ClerksPage = () => {
@@ -24,6 +25,8 @@ const ClerksPage = () => {
   const user = useSelector(state => state.user.user);
   const truthValue = useSelector(state=>state.truthValue.truthValue)
   const currentPackage = useSelector(state=>state.product.currentPackage)
+ 
+  const darkMode = useSelector((state)=>state.darkMode.mode)
   const store_id = user.store_id;
 
   useEffect(() => {
@@ -174,13 +177,9 @@ const ClerksPage = () => {
 
   if (user.role === "Clerk") {
     return (
-      <div className="clerks-page">
-        <aside className="sidebarClerk">
-          <h2>My Duka</h2>
-          <h2 onClick={()=>navigate("/chatBot")}>Messages</h2>
-          <div  className='navItem'><img src={myImage} width={30} alt='logout'/> <button onClick={handleLogout}>Log Out</button></div>
-
-        </aside>
+      <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}>
+   
+        <Sidebar/>
         <main className="main-content">
           <header>
             <h1>{user.username}</h1>

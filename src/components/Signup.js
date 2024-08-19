@@ -11,7 +11,7 @@ import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
 
 export default function Signup() {
   const [searchParams] = useSearchParams();
-  const [formData,setFormData] = useState({full_name:"",phone_number:"",email:"",password:"",confirmPassword:""})
+  const [formData,setFormData] = useState({full_name:"",phone_number:"",email:"",password:"",confirmPassword:"",profilePicture:""})
   const token = searchParams.get('token');
   const [validationError,setValidationError] = useState()
   const [validToken, setValidToken] = useState(false);
@@ -123,6 +123,18 @@ export default function Signup() {
                   value={formData.full_name}
                 />
               </div>
+              <div className="input-group">
+                <UserIcon className="icon" />
+                <input
+                  type="text"
+                  placeholder="Image link"
+                  className="input"
+                  onChange={handleChange}
+                  name = "profilePicture"
+                  value={formData.profilePicture}
+                />
+              </div>
+              
 
               <div className="input-group">
                 <PhoneIcon className="icon" />

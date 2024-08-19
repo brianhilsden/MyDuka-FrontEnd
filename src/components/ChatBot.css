@@ -1,268 +1,350 @@
-    .body {
-        background-color: #282c34;
-      }
-      
-      .App {
-        display: flex;
-      
-        height: 100vh;
-      }
-      .App header {
-        background-color: #181717;
-        height: 10vh;
-        min-height: 50px;
-        color: white;
-        position: fixed;
-        width: calc(100% - 10px); /* Adjust width considering sidebar */
-        left: 350px; /* Position header next to sidebar */
-        top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center; /* Center items */
-        z-index: 99;
-        padding: 10px;
-        box-sizing: border-box;
-      }
+.body {
+  background-color: #282c34;
+}
 
-      .header-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
+.AppChat {
+  display: flex;
+  height: 100vh;
+  transition: margin-left 0.3s ease; /* Smooth transition for sidebar toggle */
+}
 
-      .sidebar {
-      
-        background-color: #6610f2;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      
-      
-      
-      .App section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 100vh; /* Adjust for header height */
-      
-        background-color: rgb(40, 37, 53);
+.sidebarChat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 330px; /* Default sidebar width */
+  height: 100vh;
+  background-color: #282c34; /* Sidebar background color */
+  transition: width 0.3s ease; /* Smooth transition for sidebar width */
+}
 
-        padding: 10px;
-        box-sizing: border-box;
-      }
-      
-      
-      .main {
-        padding: 10px;
-        height: 100vh;
-        width: 100%;
-        margin: 10vh 0 10vh;
-        overflow-y: scroll;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .main::-webkit-scrollbar {
-        width: 0.25rem;
-      }
-      
-      .main::-webkit-scrollbar-track {
-        background: #1e1e24;
-      }
-      
-      .main::-webkit-scrollbar-thumb {
-        background: #6649b8;
-      }
-      
-      .form {
-        height: 10vh;
-        position: fixed;
-        bottom: 0;
-        background-color: rgb(24, 23, 23);
-        min-width: 85vw;
-        left: 350px;
-        display: flex;
-        font-size: 1.5rem;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      .form .button {
-        width: 20%;
-        background-color: rgb(56, 56, 143);
-      }
-      
-      .input {
-        line-height: 1.5;
-      
-        font-size: 1.5rem;
-        background: rgb(58, 58, 58);
-        color: white;
-        outline: none;
-        border: none;
-        padding: 0 10px;
-      }
-      
-      .button {
-        background-color: #282c34; /* Dark background */
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        cursor: pointer;
-        font-size: 1rem;
-      }
-      
-      .button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      
-      .sign-in {
-        color: #282c34;
-        background: white;
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-      
-      ul, li {
-        text-align: left;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      
-      .p {
-        max-width: 500px;
-        margin-bottom: 12px;
-        line-height: 24px;
-        padding: 10px 20px;
-        border-radius: 25px;
-        position: relative;
-        color: white;
-        text-align: center;
-      }
-      
-      .message {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-      }
-      
-      .sent {
-        flex-direction: row-reverse;
-      }
-      
-      .sent p {
-        color: white;
-        background: #0b93f6;
-        align-self: flex-end;
-      }
-      
-      .received p {
-        background: #e5e5ea;
-        color: black;
-      }
-      
-      .img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin: 0 5px;
-      }
-      
-      .back-button {
-        background-color: #444;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        cursor: pointer;
-        font-size: 1rem;
-        margin-top: 10px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-      }
-      
-      .back-button:hover {
-        background-color: #666;
-      }
-      .header-title {
-        flex-grow: 1;
-        text-align: center;
-        font-size: 1.5rem;
-        color: white;
-      }
-      
-      .back-button-container {
-        position: absolute;
-        left: 10px; /* Adjust as necessary */
-      }
-      
+.sidebarChat.hidden {
+  width: 0; /* Hide sidebar by setting width to 0 */
+}
 
-      .chat-area {
-        flex: 1; /* Take up the remaining space */
-        display: flex;
-        flex-direction: column;
-      }
+.menu-button {
+  display: none; /* Hide button on larger screens */
+}
 
+.AppChat header {
+  background-color: #222;
+  height: 10vh;
+  min-height: 50px;
+  color: white;
+  position: fixed;
+  width: calc(100% - 340px); /* Adjust width considering sidebar and margin */
+  left: 330px; /* Position header next to sidebar */
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center items */
+  z-index: 99;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: width 0.3s ease, left 0.3s ease; /* Smooth transition for width and position */
+}
 
-      .user-list {
-      height: 80vh;
-      padding: 20px;
-      background-color: #282c34;
-      overflow-y: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.AppChat.sidebar-hidden header {
+  width: 100%; /* Header takes full width when sidebar is hidden */
+  left: 0; /* Align header to the left when sidebar is hidden */
+}
 
-    .user-list-header {
-      margin-bottom: 20px;
-      font-size: 1.5em;
-      color: #fff;
-    }
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
 
-    .user-item {
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #444;
-      border-radius: 6px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
+.AppChat section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120vh; /* Adjust for header height */
+  background-color: rgb(40, 37, 53);
+  box-sizing: border-box;
+}
 
-    .user-item:hover {
-      background-color: #555;
-    }
+.main {
+  padding: 10px;
+  height: 90vh;
+  width: 100%;
+  margin: 10vh 0 10vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
 
-    .user-name {
-      margin: 0;
-      font-size: 1.2em;
-      color: #fff;
-    }
-      
+.main::-webkit-scrollbar {
+  width: 0.25rem;
+}
 
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 100%; /* Sidebar occupies full width on smaller screens */
-        position: relative;
-      }
-      .App header {
-        left: 0; /* Header aligns to the top on smaller screens */
-        width: 100%;
-      }
-      .form {
-        min-width: 100vw; /* Adjust form width on smaller screens */
-        left: 0;
-      }
-    }
-    
+.main::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+.form {
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  background-color: rgb(24, 23, 23);
+  min-width: 85vw;
+  left: 330px; /* Position form next to sidebar */
+  display: flex;
+  font-size: 1.5rem;
+  padding: 0;
+  box-sizing: border-box;
+  transition: left 0.3s ease; /* Smooth transition for form position */
+}
+
+.AppChat.sidebar-hidden .form {
+  left: 0; /* Align form to the left when sidebar is hidden */
+}
+
+.form .button {
+  width: 20%;
+  background-color: rgb(56, 56, 143);
+}
+
+.input {
+  line-height: 1.5;
+  font-size: 1.5rem;
+  background: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+
+.button {
+  background-color: #282c34; /* Dark background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sign-in {
+  color: #282c34;
+  background: white;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul, li {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.p {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sent {
+  flex-direction: row-reverse;
+}
+
+.sent p {
+  color: white;
+  background: #0b93f6;
+  align-self: flex-end;
+}
+
+.received p {
+  background: #e5e5ea;
+  color: black;
+}
+
+.img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.back-button {
+  background-color: #444;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #666;
+}
+
+.header-title {
+  margin-right: 20rem;
+  font-size: 2rem;
+  color: white;
+}
+
+.back-button-container {
+  position: absolute;
+  left: 10px; /* Adjust as necessary */
+}
+
+.chat-area {
+  flex: 1; /* Take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease; /* Smooth transition for chat area margin */
+}
+
+.AppChat.sidebar-hidden .chat-area {
+  margin-left: 0; /* Full width when sidebar is hidden */
+}
+
+.AppChat.sidebar-visible .chat-area {
+  margin-left: 330px; /* Adjust width when sidebar is visible */
+}
+
+.user-list {
+  height: 80vh;
+  padding: 20px;
+  background-color: #282c34;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-list-header {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #fff;
+}
+
+.user-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #444;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.user-item:hover {
+  background-color: #555;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1.2em;
+  color: #fff;
+}
+
+.unread-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  margin-left: 0.5em;
+}
+
+@media (max-width: 768px) {
+  .menu-button {
+    display: block;
+    position: fixed;
+    top: 10px; /* Adjust position as needed */
+    right: 10px; /* Adjust position as needed */
+    background-color: #282c34;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  .sidebarChat {
+    width: 100%; /* Sidebar occupies full width on smaller screens */
+    position: relative;
+  }
+
+  .AppChat {
+    margin-left: 0; /* No margin on smaller screens */
+    flex-direction: column; /* Stack elements vertically */
+  }
+
+  .AppChat header {
+    left: 0; /* Header aligns to the top on smaller screens */
+    width: 100%;
+  }
+
+  .form {
+    min-width: 95vw; /* Adjust form width on smaller screens */
+    left: 0.7rem;
+  }
+
+  .chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px; /* Add some top margin to avoid overlap */
+  }
+
+  .main {
+    margin: 10vh 0 12vh; /* Adjust for header and form heights */
+  }
+
+  .user-list {
+    height: auto;
+    padding: 10px;
+    margin-top: 10vh; /* Add margin to avoid overlap with the header */
+  }
+
+  .user-item {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .back-button-container {
+    position: static; /* Position normally within the flow */
+    text-align: left;
+  }
+
+  .header-title {
+    font-size: 1.2rem; /* Slightly smaller font size on smaller screens */
+    margin-right: 8rem;
+  }
+}

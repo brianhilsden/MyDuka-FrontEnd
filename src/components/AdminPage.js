@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import myImage from "../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png"
-
+import myImage from "../assets/images/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png";
+import Sidebar from "./Sidebar/Sidebar";
 
 import {
   approveSupplyRequest,
@@ -27,11 +27,10 @@ import {
   Bar,
   PieChart,
   Pie,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 import "./AdminPage.css";
-
-
+import { showAddProduct } from "../features/showAddProductSlice";
 
 const AdminPage = () => {
   const dispatch = useDispatch();
@@ -39,8 +38,11 @@ const AdminPage = () => {
   const [newClerkName, setNewClerkName] = useState("");
   const [newClerkEmail, setNewClerkEmail] = useState("");
   const [showAddClerkPopup, setShowAddClerkPopup] = useState(false);
+  const [groupedSalesProduct, setGroupedSalesProduct] = useState({}); // initialize state for grouped sales
 
-
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [editedUnitPrice, setEditedUnitPrice] = useState("");
+  const [editedBuyingPrice, setEditedBuyingPrice] = useState("");
   const [sales, setSales] = useState([]);
   const [refreshData, setRefreshData] = useState(false);
 
@@ -51,11 +53,61 @@ const AdminPage = () => {
     reports = {},
   } = useSelector((state) => state.admin);
   const user = useSelector((state) => state.user.user);
-  const storeAdmin = useSelector((state)=>state.storeAdmin.value)
+  const storeAdmin = useSelector((state) => state.storeAdmin.value);
+  const showProduct  = useSelector((state)=>state.showAddProduct.mode)
   const store_id = user.role === "Admin" ? user.store_id : storeAdmin.store_id;
-  console.log(storeAdmin);
   
 
+  // Add these lines here
+  const darkMode = useSelector((state)=>state.darkMode.mode)
+
+  
+
+
+  //  const toggleDarkMode = () => {
+  //    setDarkMode(!darkMode);
+  //    // You might want to save this preference to localStorage or your state management system
+  //  };
+
+  // Insert the new code snippet here
+
+  const [newProduct, setNewProduct] = useState({
+    brand_name: "",
+    product_name: "",
+    number_of_items: "",
+    buying_price: "",
+    selling_price: "",
+  });
+
+
+
+  const handleAddProductChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddProductSubmit = () => {
+    // Implementation for adding the product
+    fetch(`https://my-duka-back-end.vercel.app/addProduct/${store_id}`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(newProduct)
+    })
+    .then(res=>res.json())
+    .then(data=>setRefreshData((item)=>!item))
+    // Reset form and close popup
+    setNewProduct({
+      brand_name: "",
+      product_name: "",
+      number_of_items: "",
+      buying_price: "",
+      selling_price: "",
+    });
+    dispatch(showAddProduct(false));
+  };
+  // End of new code snippet
 
 
 
@@ -71,13 +123,6 @@ const AdminPage = () => {
     }, {});
   };
 
-  const [groupedSalesProduct, setGroupedSalesProduct] = useState({}); // initialize state for grouped sales
-
-
-
-  const [editingProductId, setEditingProductId] = useState(null);
-  const [editedUnitPrice, setEditedUnitPrice] = useState("");
-  const [editedBuyingPrice, setEditedBuyingPrice] = useState("");
 
   const handleEditClick = (product) => {
     setEditingProductId(product.id);
@@ -111,13 +156,11 @@ const AdminPage = () => {
   useEffect(() => {
     setGroupedSalesProduct(groupSalesByProduct(sales));
   }, [sales]);
-  
- 
+
   useEffect(() => {
     dispatch(setReports(groupedSalesProduct));
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [groupedSalesProduct]);
-  
 
   useEffect(() => {
     // Fetch all required data
@@ -142,7 +185,7 @@ const AdminPage = () => {
         );
         // Set local state
         setSales(sortedSales);
-   
+
         // Dispatch actions after setting state
         dispatch(setSupplyRequests(requestsData));
         dispatch(setProducts(productsData));
@@ -153,14 +196,9 @@ const AdminPage = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-       // eslint-disable-next-line
-  }, [refreshData,user]);
-;
+    // eslint-disable-next-line
+  }, [refreshData, user]);
 
-  const handleLogout = () => {
-    localStorage.clear("access_token");
-    navigate("/");
-  };
 
   const handleApproveRequest = (id) => {
     fetch(`https://my-duka-back-end.vercel.app/acceptRequests/${id}`)
@@ -192,8 +230,6 @@ const AdminPage = () => {
 
   const handleAddClerk = () => {
     if (newClerkName.trim() && newClerkEmail.trim()) {
-     
-
       fetch("https://my-duka-back-end.vercel.app/inviteClerk", {
         method: "POST",
         headers: {
@@ -208,10 +244,9 @@ const AdminPage = () => {
           return response.json();
         })
         .then((data) => {
-            setNewClerkName("");
-            setNewClerkEmail("");
-            setShowAddClerkPopup(false);
-                 
+          setNewClerkName("");
+          setNewClerkEmail("");
+          setShowAddClerkPopup(false);
         })
         .catch((error) => {
           console.error("There was a problem with the fetch operation:", error);
@@ -336,33 +371,30 @@ const AdminPage = () => {
       });
     }
   };
- 
-  
 
   const clerkSalesData = calculateClerkSales(clerks);
-  if (user.role === "Admin" || user.role === "Merchant"){
+  if (user.role === "Admin" || user.role === "Merchant") {
     return (
-        <div className="admin-page">
-          <aside className="sidebarAdmin">
-            <h2 onClick={()=>navigate(`/admin/${user.id}`)} style={{cursor:"pointer"}}>My Duka</h2>
-            <h2 onClick={()=>navigate("/chatBot")}>Messages</h2>
-            <div  className='navItem' style={{gap:"1rem"}}><img src={myImage} width={30} alt="logout"/> <h2 onClick={handleLogout} style={{cursor:"pointer", textDecoration:"none",marginTop:"0.8rem"}} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>Log Out</h2></div>
-          </aside>
-          <main className="main-content">
-            <header>
-              <h1>{user.role === "Admin" ? user.username : storeAdmin.username}</h1>
-              <button
-                className="add-clerk-btn"
-                onClick={() => setShowAddClerkPopup(true)}
-              >
-                <span className="plus-icon">+</span> Add Clerk
-              </button>
-            </header>
-    
-            <section className="supply-requests">
-              <h2>Supply Requests</h2>
-              <div className="table-responsive"> 
-              <table >
+      <div className={`admin-page ${darkMode ? 'dark-mode' : ''}`}>
+   
+       <Sidebar />
+        <main className="main-content">
+          <header>
+            <h1>
+              {user.role === "Admin" ? user.username : storeAdmin.username}
+            </h1>
+            <button
+              className="add-clerk-btn"
+              onClick={() => setShowAddClerkPopup(true)}
+            >
+              <span className="plus-icon">+</span> Add Clerk
+            </button>
+          </header>
+
+          <section className="supply-requests">
+            <h2>Supply Requests</h2>
+            <div className="table-responsive">
+              <table>
                 <thead>
                   <tr>
                     <th>Clerk</th>
@@ -380,7 +412,7 @@ const AdminPage = () => {
                         <td>{request.product.product_name}</td>
                         <td>{request.quantity}</td>
                         <td>{request.status}</td>
-    
+
                         <td>
                           {request.status === "Pending" && (
                             <button
@@ -404,86 +436,88 @@ const AdminPage = () => {
                   </tbody>
                 )}
               </table>
-              </div>
-            </section>
-    
-            <section className="products">
-      <h2>Products</h2>
-      
-      <div className="table-responsive"> 
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Paid Status</th>
-            <th>Spoilt</th>
-            <th>Remaining Stock</th>
-            <th>Unit Price</th>
-            <th>Buying Price</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.product_name}</td>
-              <td>
-                {product.payment_status === "paid" ? (
-                  "Paid"
-                ) : (
-                  <button onClick={() => handleMarkAsPaid(product.id)}>
-                    Mark as Paid
-                  </button>
-                )}
-              </td>
-              <td>{product.spoilt_items}</td>
-              <td>{product.closing_stock}</td>
-              <td>
-                {editingProductId === product.id ? (
-                  <input
-                    type="number"
-                    value={editedUnitPrice}
-                    onChange={(e) => setEditedUnitPrice(e.target.value)}
-                  />
-                ) : (
-                  product.selling_price
-                )}
-              </td>
-              <td>
-                {editingProductId === product.id ? (
-                  <input
-                    type="number"
-                    value={editedBuyingPrice}
-                    onChange={(e) => setEditedBuyingPrice(e.target.value)}
-                  />
-                ) : (
-                  product.buying_price
-                )}
-              </td>
-              <td>
-                {editingProductId === product.id ? (
-                  <>
-                    <button onClick={() => handleSaveClick(product.id)}>
-                      Save
-                    </button>
-                    <button onClick={handleCancelClick}>Cancel</button>
-                  </>
-                ) : (
-                  <button onClick={() => handleEditClick(product)}>
-                    Edit
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-    </section>
-    
-            <section className="clerks">
-              <h2>Clerks</h2>
-              <div className="table-responsive"> 
+            </div>
+          </section>
+
+          <section className="products">
+            <h2>Products</h2>
+
+            <div className="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Paid Status</th>
+                    <th>Spoilt</th>
+                    <th>Remaining Stock</th>
+                    <th>Unit Price</th>
+                    <th>Buying Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.product_name}</td>
+                      <td>
+                        {product.payment_status === "paid" ? (
+                          "Paid"
+                        ) : (
+                          <button onClick={() => handleMarkAsPaid(product.id)}>
+                            Mark as Paid
+                          </button>
+                        )}
+                      </td>
+                      <td>{product.spoilt_items}</td>
+                      <td>{product.closing_stock}</td>
+                      <td>
+                        {editingProductId === product.id ? (
+                          <input
+                            type="number"
+                            value={editedUnitPrice}
+                            onChange={(e) => setEditedUnitPrice(e.target.value)}
+                          />
+                        ) : (
+                          product.selling_price
+                        )}
+                      </td>
+                      <td>
+                        {editingProductId === product.id ? (
+                          <input
+                            type="number"
+                            value={editedBuyingPrice}
+                            onChange={(e) =>
+                              setEditedBuyingPrice(e.target.value)
+                            }
+                          />
+                        ) : (
+                          product.buying_price
+                        )}
+                      </td>
+                      <td>
+                        {editingProductId === product.id ? (
+                          <>
+                            <button onClick={() => handleSaveClick(product.id)}>
+                              Save
+                            </button>
+                            <button onClick={handleCancelClick}>Cancel</button>
+                          </>
+                        ) : (
+                          <button onClick={() => handleEditClick(product)}>
+                            Edit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="clerks">
+            <h2>Clerks</h2>
+            <div className="table-responsive">
               <table>
                 <thead>
                   <tr>
@@ -494,38 +528,37 @@ const AdminPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {clerks[0] && clerks.map((clerk) => (
-                    <tr key={clerk.id}>
-                      <td>{clerk.username}</td>
-                      <td>{clerk.email}</td>
-                      <td>{clerk.account_status}</td>
-                      <td>
-                        <button
-                          className="inactivate-btn"
-                          onClick={() => handleInactivateClerk(clerk.id)}
-                        >
-                          {clerk.account_status}
-                        </button>
-                        <button
-                          className="delete-btn"
-                          onClick={() => handleRemoveClerk(clerk.id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {clerks[0] &&
+                    clerks.map((clerk) => (
+                      <tr key={clerk.id}>
+                        <td>{clerk.username}</td>
+                        <td>{clerk.email}</td>
+                        <td>{clerk.account_status}</td>
+                        <td>
+                          <button
+                            className="inactivate-btn"
+                            onClick={() => handleInactivateClerk(clerk.id)}
+                          >
+                            {clerk.account_status}
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleRemoveClerk(clerk.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
-              </div>
-            </section>
+            </div>
+          </section>
 
-
-                  
-            {Object.keys(groupedSales).map((itemName) => (
-              <section key={itemName} className="clerk-sales">
-                <h3>{itemName}</h3>
-                <div className="table-responsive"> 
+          {Object.keys(groupedSales).map((itemName) => (
+            <section key={itemName} className="clerk-sales">
+              <h3>{itemName}</h3>
+              <div className="table-responsive">
                 <table>
                   <thead>
                     <tr>
@@ -548,19 +581,19 @@ const AdminPage = () => {
                     ))}
                   </tbody>
                 </table>
-                </div>
-              </section>
-            ))}
-    
-            <section className="performance-reports">
-              <h2>Performance Reports</h2>
-              {Object.entries(reports).map(([product, data]) => (
-                <div key={product} className="product-report">
-                  <h3>
-                    {product.charAt(0).toUpperCase() + product.slice(1)} Sales
-                    Trends
-                  </h3>
-                  <ResponsiveContainer width="100%" height={400}>
+              </div>
+            </section>
+          ))}
+
+          <section className="performance-reports">
+            <h2>Performance Reports</h2>
+            {Object.entries(reports).map(([product, data]) => (
+              <div key={product} className="product-report">
+                <h3>
+                  {product.charAt(0).toUpperCase() + product.slice(1)} Sales
+                  Trends
+                </h3>
+                <ResponsiveContainer width="100%" height={400}>
                   <LineChart width={600} height={300} data={data}>
                     <XAxis dataKey="date" />
                     <YAxis yAxisId="left" />
@@ -579,24 +612,24 @@ const AdminPage = () => {
                       yAxisId="left"
                       type="monotone"
                       dataKey="quantity_in_hand"
-                      stroke="#ff0000"
+                      stroke={darkMode ? "#ffd700" : "#ffc658"}
                       name="Quantity in Hand"
                     />
                     <Line
                       yAxisId="right"
                       type="monotone"
                       dataKey="profit"
-                      stroke="#82ca9d"
+                      stroke={darkMode ? "#ff6b6b" : "#ff0000"}
                       name="Profit (KSH)"
                     />
                   </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              ))}
-            </section>
-            <section className="product-performance-comparison">
-              <h2>Product Performance Comparison</h2>
-              <ResponsiveContainer width="100%" height={400}>
+                </ResponsiveContainer>
+              </div>
+            ))}
+          </section>
+          <section className="product-performance-comparison">
+            <h2>Product Performance Comparison</h2>
+            <ResponsiveContainer width="100%" height={400}>
               <BarChart width={800} height={400} data={result}>
                 <XAxis dataKey="name" />
                 <YAxis yAxisId="left" />
@@ -617,11 +650,11 @@ const AdminPage = () => {
                   name="Profit (KSH)"
                 />
               </BarChart>
-              </ResponsiveContainer>
-            </section>
-            <section className="clerk-performance-comparison">
-              <h2>Clerk Performance Comparison</h2>
-               <ResponsiveContainer width="100%" height={400}>
+            </ResponsiveContainer>
+          </section>
+          <section className="clerk-performance-comparison">
+            <h2>Clerk Performance Comparison</h2>
+            <ResponsiveContainer width="100%" height={400}>
               <PieChart width={800} height={400}>
                 <Pie
                   data={clerkSalesData}
@@ -635,36 +668,83 @@ const AdminPage = () => {
                 <Tooltip />
                 <Legend />
               </PieChart>
-              </ResponsiveContainer>
-            </section>
-          </main>
-    
-          {showAddClerkPopup && (
-            <div className="popup">
-              <div className="popup-content">
-                <h2>Add New Clerk</h2>
-                <input
-                  type="text"
-                  value={newClerkName}
-                  onChange={(e) => setNewClerkName(e.target.value)}
-                  placeholder="Enter clerk name"
-                />
-                <input
-                  type="email"
-                  value={newClerkEmail}
-                  onChange={(e) => setNewClerkEmail(e.target.value)}
-                  placeholder="Enter clerk email"
-                />
-                <button onClick={handleAddClerk}>Add</button>
-                <button onClick={() => setShowAddClerkPopup(false)}>Cancel</button>
-              </div>
+            </ResponsiveContainer>
+          </section>
+        </main>
+        {showProduct && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Add New Product</h2>
+              <input
+                type="text"
+                name="brand_name"
+                value={newProduct.brand_name}
+                onChange={handleAddProductChange}
+                placeholder="Brand Name"
+               
+              />
+              <input
+                type="text"
+                name="product_name"
+                value={newProduct.product_name}
+                onChange={handleAddProductChange}
+                placeholder="Product Name"
+              />
+              <input
+                type="number"
+                name="number_of_items"
+                value={newProduct.number_of_items}
+                onChange={handleAddProductChange}
+                placeholder="Number of Items"
+              />
+              <input
+                type="number"
+                name="buying_price"
+                value={newProduct.buying_price}
+                onChange={handleAddProductChange}
+                placeholder="Buying Price"
+              />
+              <input
+                type="number"
+                name="selling_price"
+                value={newProduct.selling_price}
+                onChange={handleAddProductChange}
+                placeholder="Selling Price"
+              />
+              <button onClick={handleAddProductSubmit}>Add</button>
+              <button onClick={() => dispatch(showAddProduct(false))}>
+                Cancel
+              </button>
             </div>
-          )}
-        </div>
-      );
+          </div>
+        )}
 
+        {showAddClerkPopup && (
+          <div className="popup">
+            <div className="popup-content">
+              <h2>Add New Clerk</h2>
+              <input
+                type="text"
+                value={newClerkName}
+                onChange={(e) => setNewClerkName(e.target.value)}
+                placeholder="Enter clerk name"
+              />
+              <input
+                type="email"
+                value={newClerkEmail}
+                onChange={(e) => setNewClerkEmail(e.target.value)}
+                placeholder="Enter clerk email"
+              />
+              <button onClick={handleAddClerk}>Add</button>
+              <button onClick={() => setShowAddClerkPopup(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
   }
-  
 };
 
 export default AdminPage;

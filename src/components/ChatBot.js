@@ -28,21 +28,60 @@ function ChatBot() {
     setChatId(null);
   };
 
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setSidebarVisible(true); // Show sidebar on larger screens
+    } else {
+      setSidebarVisible(false); // Hide sidebar on smaller screens
+    }
+  };
+
+  useEffect(() => {
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const signInOrSignUp = async () => {
     try {
-      await auth.signInWithEmailAndPassword(loggedInUser.email, loggedInUser.email);
+      await auth.signInWithEmailAndPassword(
+        loggedInUser.email,
+        loggedInUser.email
+      );
     } catch (error) {
-      if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/invalid-credential"
+      ) {
         try {
-          const result = await auth.createUserWithEmailAndPassword(loggedInUser.email, loggedInUser.email);
+          const result = await auth.createUserWithEmailAndPassword(
+            loggedInUser.email,
+            loggedInUser.email
+          );
           const user = result.user;
 
-          await firestore.collection("users").doc(user.uid).set({
-            uid: user.uid,
-            displayName: loggedInUser.username,
-            email: loggedInUser.email,
-            photoURL: loggedInUser.photoURL || "",
-          });
+          await firestore
+            .collection("users")
+            .doc(user.uid)
+            .set({
+              uid: user.uid,
+              displayName: loggedInUser.username,
+              email: loggedInUser.email,
+              photoURL: loggedInUser.profilePicture || "",
+            });
         } catch (signUpError) {
           console.error("Error during sign up:", signUpError);
         }
@@ -72,14 +111,20 @@ function ChatBot() {
   }
 
   return (
-    <div className="App">
-      <Sidebar />
+    <div className={`AppChat ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}>
+      <div className={`sidebarChat ${sidebarVisible ? '' : 'hidden'}`}>
+        <Sidebar />
+      </div>
       <div className="chat-area">
-     
+        
         <section>
           {user ? (
             selectedUser ? (
-              <ChatRoom chatId={chatId} selectedUser={selectedUser} onBack={goBack} />
+              <ChatRoom
+                chatId={chatId}
+                selectedUser={selectedUser}
+                onBack={goBack}
+              />
             ) : (
               <UserList selectUser={selectUser} />
             )
@@ -100,18 +145,14 @@ function UserList({ selectUser }) {
   if (!users || !user) return <p>Loading...</p>;
 
   // Filter out the current user
-  const filteredUsers = users.filter(u => u.uid !== user.uid);
+  const filteredUsers = users.filter((u) => u.uid !== user.uid);
 
   return (
     <div className="user-list">
       <h3 className="user-list-header">Select a user to chat with:</h3>
       {filteredUsers.length > 0 ? (
         filteredUsers.map((u) => (
-          <div
-            key={u.uid}
-            onClick={() => selectUser(u)}
-            className="user-item"
-          >
+          <div key={u.uid} onClick={() => selectUser(u)} className="user-item">
             <p className="user-name">{u.displayName}</p>
           </div>
         ))
@@ -122,9 +163,10 @@ function UserList({ selectUser }) {
   );
 }
 
-function ChatRoom({ chatId, selectedUser,onBack }) {
+function ChatRoom({ chatId, selectedUser, onBack }) {
   const dummy = useRef();
-  const messagesRef = firebase.firestore()
+  const messagesRef = firebase
+    .firestore()
     .collection("chats")
     .doc(chatId)
     .collection("messages");
@@ -156,17 +198,16 @@ function ChatRoom({ chatId, selectedUser,onBack }) {
     <>
       <header>
         <div className="header-container">
-          <div className="back-button-container">
-            {onBack()}
-          </div>
+          <div className="back-button-container">{onBack()}</div>
           <h2 className="header-title">{selectedUser.displayName}</h2>
         </div>
       </header>
       <main className="main">
-        {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+        {messages &&
+          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
         <span ref={dummy}></span>
       </main>
-  
+
       <form onSubmit={sendMessage} className="form">
         <input
           className="input"
@@ -180,7 +221,6 @@ function ChatRoom({ chatId, selectedUser,onBack }) {
       </form>
     </>
   );
-  
 }
 
 function ChatMessage(props) {
@@ -192,7 +232,8 @@ function ChatMessage(props) {
       <img
         className="img"
         src={
-          photoURL || "https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-placeholder-png-image_3918418.jpg"
+          photoURL ||
+          "https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-placeholder-png-image_3918418.jpg"
         }
         alt="avatar"
       />

@@ -1,3 +1,4 @@
+
 .clerks-page {
   display: flex;
   font-family: Arial, sans-serif;
@@ -80,7 +81,7 @@ header p {
 .inventory h2, .sales h2 {
   margin-top: 0;
   margin-bottom: 15px;
-  color: #6610f2;
+
 }
 
 table {
