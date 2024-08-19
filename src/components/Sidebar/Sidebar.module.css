@@ -1,4 +1,3 @@
-/* Ensure the body content is pushed when the sidebar is visible */
 body {
   margin: 0;
   padding: 0;
@@ -12,7 +11,7 @@ body {
   padding: 15px 10px;
   gap: 2rem;
   width: 320px;
-  height: 100vh; /* Adjusted to make sidebar fit the screen height */
+  height: 100vh; /* Full height for the sidebar */
   background-color: #6610f2;
   position: fixed;
   top: 0;
@@ -77,6 +76,7 @@ body {
   background-color: black;
   color: white;
 }
+
 .add-product-btn {
   background-color: #4CAF50;
   border: none;
@@ -92,26 +92,33 @@ body {
   width: 20rem;
 }
 
-
-@media (max-width: 768px) {
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 10rem; /* Smaller width for tablets */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .sidebar {
-      width: 8rem; /* Even smaller width for phones */
-    }
-  }
-
-  .sidebarVisible {
-    transform: translateX(0);
+/* Default sidebar styles for larger screens */
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0); /* Always visible */
   }
 
   .sidebarHidden {
     transform: translateX(-100%);
+  }
+
+  .contentWithSidebar {
+    margin-left: 320px; /* Sidebar width */
+  }
+}
+
+/* Styles for smaller screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 10rem; /* Smaller width for tablets */
+  }
+
+  .sidebarHidden {
+    transform: translateX(-100%);
+  }
+
+  .sidebarVisible {
+    transform: translateX(0);
   }
 
   .navItem {
@@ -120,6 +127,10 @@ body {
 
   .navLink {
     font-size: 1rem;
+  }
+
+  .contentWithSidebar {
+    margin-left: 0; /* No margin on smaller screens */
   }
 }
 
@@ -140,8 +151,8 @@ body {
 
 .toggleButton {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: 3px;
+  right: 3px;
   background-color: #6610f2;
   color: white;
   border: none;
@@ -154,6 +165,7 @@ body {
 .toggleButton:hover {
   background-color: #5a0dc4;
 }
+
 /* Wrapper for main content */
 .content {
   transition: margin-left 0.3s ease;

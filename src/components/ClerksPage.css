@@ -59,6 +59,7 @@ header p {
   cursor: pointer;
   font-size: 14px;
   margin-left: 10px;
+  margin-right: 2rem;
 }
 
 .sell-btn {
