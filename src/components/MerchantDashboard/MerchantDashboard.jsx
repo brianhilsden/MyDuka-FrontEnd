@@ -95,7 +95,7 @@ const MerchantDashboard = () => {
         <div className={styles.mainContent}>
           <div className={styles.header}>
             <h1>Merchant Dashboard - {user.username}</h1>
-            <button onClick={toggleAddAdminForm} className={styles.addButton}>
+            <button onClick={toggleAddAdminForm} className={styles.addButton} style={{ marginTop:"10px"}}>
               Add Admin
             </button>
           </div>
