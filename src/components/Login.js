@@ -3,7 +3,7 @@ import { useNavigate  , useLocation} from 'react-router-dom';
 import './Login.css';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../features/userSlice';
-import myImage from '../assets/images/pexels-rebrand-cities-581004-1367272.jpg';
+import myImage from '../assets/images/b916ee86f6025021330e27de0684542c.jpg';
 
 
 
