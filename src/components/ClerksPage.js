@@ -182,7 +182,7 @@ const ClerksPage = () => {
         <Sidebar/>
         <main className="main-content">
           <header>
-            <h1>{user.username}</h1>
+            <h1 style={{marginLeft:"1rem"}}>{user.username}</h1>
             <div>
               <button className="sell-btn" onClick={handleSellItem}>Sell Item</button>
               <button className="request-btn" onClick={handleRequestProduct}>Request Products</button>

@@ -33,7 +33,7 @@
   color: white;
   position: fixed;
   width: calc(100% - 340px); /* Adjust width considering sidebar and margin */
-  left: 330px; /* Position header next to sidebar */
+  left: 340px; /* Position header next to sidebar */
   top: 0;
   display: flex;
   align-items: center;
@@ -93,7 +93,7 @@
   bottom: 0;
   background-color: rgb(24, 23, 23);
   min-width: 85vw;
-  left: 330px; /* Position form next to sidebar */
+  left: 340px; /* Position form next to sidebar */
   display: flex;
   font-size: 1.5rem;
   padding: 0;

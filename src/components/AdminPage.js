@@ -380,12 +380,13 @@ const AdminPage = () => {
        <Sidebar />
         <main className="main-content">
           <header>
-            <h1>
+            <h1 style={{marginLeft:"1rem"}}>
               {user.role === "Admin" ? user.username : storeAdmin.username}
             </h1>
             <button
               className="add-clerk-btn"
               onClick={() => setShowAddClerkPopup(true)}
+              style={{ marginRight:"1rem"}}
             >
               <span className="plus-icon">+</span> Add Clerk
             </button>

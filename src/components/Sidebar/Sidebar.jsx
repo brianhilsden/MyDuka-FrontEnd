@@ -11,7 +11,7 @@ import { showAddProduct } from "../../features/showAddProductSlice";
 import { showAddStore } from "../../features/showAddStoreSlice";
 
 const Sidebar = () => {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Default to hidden on small screens
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true); // Default to visible on larger screens
   const user = useSelector((state) => state.user.user);
   const darkMode = useSelector((state) => state.darkMode.mode);
   const dispatch = useDispatch();
