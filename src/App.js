@@ -15,6 +15,8 @@ import Login from './components/Login';
 
 import './App.css';
 import AdminPage from './components/AdminPage';
+import ChatBot from './components/ChatBot';
+import ResetPassword from './components/ResetPassword';
 
 
 
@@ -60,6 +62,8 @@ const App = () => {
         <Route path="/clerk/:id" element={<ClerksPage/>}/>
         <Route path='/merchant' element={<MerchantDashboard/>}/>
         <Route path='/admin/:id' element={<AdminPage/>}/>
+        <Route path='/chatBot' element={<ChatBot/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword/>}/>
       </Routes>
     </Router>
 
