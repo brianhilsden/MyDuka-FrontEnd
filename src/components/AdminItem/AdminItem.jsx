@@ -12,6 +12,7 @@ const AdminItem = ({ admin,removeAdmin }) => {
         removeAdmin(admin.id)
       
         
+        
         try {
             const response = await fetch(`https://my-duka-back-end.vercel.app/adminAccountStatus/${admin.id}`, {
                 method: 'DELETE',
