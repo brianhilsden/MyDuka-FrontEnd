@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/MyDuka-FrontEnd/static/css/main.5cca6cd3.css",
-    "main.js": "/MyDuka-FrontEnd/static/js/main.fe6233c3.js",
+    "main.css": "/MyDuka-FrontEnd/static/css/main.22d2191e.css",
+    "main.js": "/MyDuka-FrontEnd/static/js/main.a542fb17.js",
     "static/media/IMG_20240727_142324_284.jpg": "/MyDuka-FrontEnd/static/media/IMG_20240727_142324_284.66c9b2ece00f774b909c.jpg",
     "static/media/jpg": "/MyDuka-FrontEnd/static/media/e242a5362a5b0f6dae0b5b3fdbafe721.2eb2af1567803a7e5ea8.jpg",
     "static/media/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.png": "/MyDuka-FrontEnd/static/media/[CITYPNG.COM]PNG Login Logout White Icon - 800x800.e016205581d493d4d7f2.png",
     "index.html": "/MyDuka-FrontEnd/index.html",
-    "main.5cca6cd3.css.map": "/MyDuka-FrontEnd/static/css/main.5cca6cd3.css.map",
-    "main.fe6233c3.js.map": "/MyDuka-FrontEnd/static/js/main.fe6233c3.js.map"
+    "main.22d2191e.css.map": "/MyDuka-FrontEnd/static/css/main.22d2191e.css.map",
+    "main.a542fb17.js.map": "/MyDuka-FrontEnd/static/js/main.a542fb17.js.map"
   },
   "entrypoints": [
-    "static/css/main.5cca6cd3.css",
-    "static/js/main.fe6233c3.js"
+    "static/css/main.22d2191e.css",
+    "static/js/main.a542fb17.js"
   ]
 }
